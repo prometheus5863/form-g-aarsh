@@ -1,0 +1,120 @@
+/* --- MODAL STYLES --- */
+.modal-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(17, 24, 39, 0.7); /* Dark Navy dim */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s;
+    z-index: 1000;
+}
+
+.modal-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal-content {
+    background: white;
+    width: 600px;
+    max-width: 90%;
+    border-radius: 8px;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+    border-top: 4px solid var(--ibc-gold);
+    overflow: hidden;
+}
+
+.modal-header {
+    padding: 20px 24px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--ibc-cream);
+}
+
+.modal-header h3 {
+    font-family: 'Playfair Display', serif;
+    color: var(--ibc-navy);
+    margin: 0;
+    font-size: 20px;
+}
+
+.close-modal {
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: var(--ibc-slate);
+    cursor: pointer;
+}
+
+.modal-body {
+    padding: 24px;
+    max-height: 60vh;
+    overflow-y: auto;
+}
+
+.detail-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.detail-item label {
+    display: block;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+}
+
+.detail-item p {
+    font-size: 14px;
+    color: var(--ibc-navy);
+    font-weight: 500;
+}
+
+.detail-item.full-width {
+    grid-column: span 2;
+}
+
+.analysis-box {
+    background: var(--ibc-cream);
+    padding: 12px;
+    border-radius: 4px;
+    font-size: 13px;
+    line-height: 1.5;
+    border-left: 2px solid var(--ibc-gold);
+}
+
+.modal-footer {
+    padding: 16px 24px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+}
+
+.modal-btn {
+    padding: 8px 16px;
+    border-radius: 4px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.modal-btn.primary {
+    background: var(--ibc-navy);
+    color: white;
+}
+
+.modal-btn.secondary {
+    background: white;
+    border: 1px solid var(--border);
+    color: var(--ibc-slate);
+}

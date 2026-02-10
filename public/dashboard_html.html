@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atul Mittal | Aarsh Resolution Professionals</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Tailwind Configuration -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        ibc: {
+                            navy: '#3E447A',
+                            cream: '#FDF8ED',
+                            slate: '#5E6282',
+                            gold: '#D4AF37',
+                            darkNavy: '#2A2E52'
+                        }
+                    },
+                    fontFamily: {
+                        serif: ['Playfair Display', 'serif'],
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Smooth Scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        /* Custom Scrollbar for horizontal sections */
+        .hide-scroll::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scroll {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="bg-ibc-cream text-ibc-slate font-sans antialiased">
+
+    <!-- Header -->
+    <header class="sticky top-0 z-50 bg-ibc-navy shadow-lg">
+        <!-- Top Bar -->
+        <div class="bg-ibc-darkNavy text-white/70 text-xs py-2 px-6 md:px-12 flex justify-between items-center">
+            <span>Insolvency Professional (IP) & Fellow Chartered Accountant</span>
+            <div class="flex space-x-4">
+                <a href="#contact" class="hover:text-ibc-gold transition-colors">info@aarshrp.com</a>
+            </div>
+        </div>
+        
+        <!-- Main Navbar -->
+        <div class="px-6 md:px-12 py-4 flex justify-between items-center">
+            <!-- Logo -->
+            <a href="#" class="flex flex-col group">
+                <span class="font-serif text-2xl text-white font-bold tracking-wide">AARSH<span class="text-ibc-gold">.</span></span>
+                <span class="text-[10px] text-gray-300 uppercase tracking-widest group-hover:text-ibc-gold transition-colors">Resolution Professionals</span>
+            </a>
+
+            <!-- Desktop Nav -->
+            <nav class="hidden md:flex space-x-8">
+                <a href="#about" class="text-gray-200 hover:text-ibc-gold text-sm font-medium transition-colors">Profile</a>
+                <a href="#expertise" class="text-gray-200 hover:text-ibc-gold text-sm font-medium transition-colors">Expertise</a>
+                <a href="#track-record" class="text-gray-200 hover:text-ibc-gold text-sm font-medium transition-colors">Track Record</a>
+                <a href="#contact" class="px-5 py-2 border border-ibc-gold text-ibc-gold rounded-sm text-sm hover:bg-ibc-gold hover:text-ibc-navy transition-all">Contact</a>
+            </nav>
+
+            <!-- Mobile Menu Button -->
+            <button class="md:hidden text-white" onclick="document.getElementById('mobile-menu').classList.toggle('hidden')">
+                <i data-lucide="menu" class="w-6 h-6"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-ibc-navy border-t border-gray-700 p-4 absolute w-full">
+            <a href="#about" class="block py-2 text-gray-200 hover:text-ibc-gold">Profile</a>
+            <a href="#expertise" class="block py-2 text-gray-200 hover:text-ibc-gold">Expertise</a>
+            <a href="#track-record" class="block py-2 text-gray-200 hover:text-ibc-gold">Track Record</a>
+            <a href="#contact" class="block mt-4 text-ibc-gold font-medium">Contact Me</a>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="relative min-h-[90vh] flex flex-col-reverse md:flex-row items-center overflow-hidden">
+        
+        <!-- Left Content -->
+        <div class="w-full md:w-1/2 px-6 md:px-16 py-12 md:py-20 z-10">
+            <div class="border-l-4 border-ibc-gold pl-6 mb-6">
+                <p class="text-ibc-gold font-bold tracking-widest text-sm uppercase mb-2">Since 1988</p>
+                <h1 class="font-serif text-4xl md:text-6xl text-ibc-navy font-bold leading-tight">
+                    Strategic Resolution. <br>
+                    <span class="italic font-light">Business Turnaround.</span>
+                </h1>
+            </div>
+            <p class="text-lg md:text-xl text-ibc-slate mb-8 leading-relaxed max-w-lg">
+                Expertise in conflict resolution, insolvency ecosystems, and strategic corporate restructuring. Steering stakeholders through complex financial landscapes.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4">
+                <a href="#contact" class="bg-ibc-navy text-white px-8 py-3 rounded-sm font-medium hover:bg-ibc-darkNavy hover:-translate-y-0.5 transition-all shadow-lg text-center">
+                    Get in Touch
+                </a>
+                <a href="#about" class="border border-ibc-navy text-ibc-navy px-8 py-3 rounded-sm font-medium hover:bg-white transition-all text-center">
+                    View Credentials
+                </a>
+            </div>
+        </div>
+
+        <!-- Right Image -->
+        <div class="w-full md:w-1/2 h-[50vh] md:h-[90vh] relative bg-gray-200">
+             <!-- Placeholder for Professional Headshot -->
+            <img src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?ixlib=rb-1.2.1&auto=format&fit=crop&w=1600&q=80" 
+                 alt="Corporate Meeting" 
+                 class="absolute inset-0 w-full h-full object-cover opacity-90">
+            
+            <!-- Decorative Frame -->
+            <div class="absolute inset-0 border-[20px] border-ibc-cream/30"></div>
+            <div class="absolute bottom-0 right-0 bg-ibc-cream p-6 md:p-10 max-w-sm shadow-2xl border-t-4 border-ibc-gold">
+                <p class="font-serif text-2xl text-ibc-navy italic">"Preserving value through strategic clarity."</p>
+                <p class="mt-4 font-bold text-sm uppercase tracking-wide text-ibc-slate">— Atul Mittal, Founder</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Trust Metrics Strip -->
+    <section class="bg-white py-12 border-b border-gray-100">
+        <div class="max-w-7xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+            <div>
+                <p class="font-serif text-4xl md:text-5xl text-ibc-navy font-bold">30+</p>
+                <p class="text-sm uppercase tracking-wide text-ibc-slate mt-2">Years Experience</p>
+            </div>
+            <div>
+                <p class="font-serif text-4xl md:text-5xl text-ibc-navy font-bold">₹400cr+</p>
+                <p class="text-sm uppercase tracking-wide text-ibc-slate mt-2">Disputes Settled</p>
+            </div>
+            <div>
+                <p class="font-serif text-4xl md:text-5xl text-ibc-navy font-bold">FCA/FCS</p>
+                <p class="text-sm uppercase tracking-wide text-ibc-slate mt-2">Fellow Member</p>
+            </div>
+            <div>
+                <p class="font-serif text-4xl md:text-5xl text-ibc-navy font-bold">Global</p>
+                <p class="text-sm uppercase tracking-wide text-ibc-slate mt-2">Indonesia & Germany Stints</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-20 max-w-7xl mx-auto px-6 md:px-12">
+        <div class="grid md:grid-cols-12 gap-12 items-start">
+            <!-- Image/Profile Card -->
+            <div class="md:col-span-4">
+                <div class="bg-white p-2 shadow-xl rounded-sm transform rotate-1 hover:rotate-0 transition-transform duration-500">
+                    <img src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" 
+                         alt="Atul Mittal Placeholder" 
+                         class="w-full h-auto grayscale hover:grayscale-0 transition-all duration-500">
+                    <div class="p-6 text-center">
+                        <h3 class="font-serif text-2xl text-ibc-navy">Atul Mittal</h3>
+                        <p class="text-ibc-gold text-sm font-bold uppercase mt-1">Founder, Aarsh RP Pvt Ltd</p>
+                        <div class="mt-4 flex justify-center space-x-2">
+                             <span class="px-2 py-1 bg-gray-100 text-xs text-ibc-navy rounded">CA (1988)</span>
+                             <span class="px-2 py-1 bg-gray-100 text-xs text-ibc-navy rounded">CS (1991)</span>
+                             <span class="px-2 py-1 bg-gray-100 text-xs text-ibc-navy rounded">IP (2017)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bio Text -->
+            <div class="md:col-span-8 space-y-6">
+                <h2 class="font-serif text-3xl md:text-4xl text-ibc-navy mb-6">A Legacy of Financial Leadership</h2>
+                <p class="leading-relaxed">
+                    Mr. Atul Mittal is a practicing Insolvency Professional and the Founder of Aarsh Resolution Professionals Pvt Ltd (AARSHRP), an IPE registered with IBBI. With a foundation as a Fellow Member of the Institute of Chartered Accountants of India (1988) and the Institute of Company Secretaries of India (1991), coupled with a B.Com (Hons) from Delhi University, he brings academic rigor to practical problem solving.
+                </p>
+                <p class="leading-relaxed">
+                    Over three decades, Mr. Mittal has worked closely with Business Leaders and Professional Boards in leading corporates, including significant international tenures in Indonesia. He is a collaborative team player passionate about mentoring and nurturing talent.
+                </p>
+                
+                <div class="pt-6 border-t border-gray-200">
+                    <h4 class="font-serif text-xl text-ibc-navy mb-4">Core Competencies</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="flex items-start">
+                            <i data-lucide="check-circle" class="w-5 h-5 text-ibc-gold mt-1 mr-3 flex-shrink-0"></i>
+                            <span>Interim Resolution Professional (IRP) & RP</span>
+                        </div>
+                        <div class="flex items-start">
+                            <i data-lucide="check-circle" class="w-5 h-5 text-ibc-gold mt-1 mr-3 flex-shrink-0"></i>
+                            <span>Authorized Representative (AR) for Creditors</span>
+                        </div>
+                        <div class="flex items-start">
+                            <i data-lucide="check-circle" class="w-5 h-5 text-ibc-gold mt-1 mr-3 flex-shrink-0"></i>
+                            <span>Liquidator & Voluntary Liquidation</span>
+                        </div>
+                        <div class="flex items-start">
+                            <i data-lucide="check-circle" class="w-5 h-5 text-ibc-gold mt-1 mr-3 flex-shrink-0"></i>
+                            <span>Corporate Transaction Advisory</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Grid -->
+    <section id="expertise" class="bg-white py-20">
+        <div class="max-w-7xl mx-auto px-6 md:px-12">
+            <div class="text-center mb-16 max-w-2xl mx-auto">
+                <span class="text-ibc-gold font-bold uppercase tracking-widest text-xs">Our Services</span>
+                <h2 class="font-serif text-4xl text-ibc-navy mt-2">Areas of Expertise</h2>
+                <p class="text-ibc-slate mt-4">Comprehensive solutions for corporate insolvency, restructuring, and strategic turnaround.</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Card 1 -->
+                <div class="bg-ibc-cream p-8 rounded-sm shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300 border-t-4 border-transparent hover:border-ibc-gold group">
+                    <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center mb-6 shadow-sm group-hover:bg-ibc-navy group-hover:text-white transition-colors">
+                        <i data-lucide="scale" class="w-6 h-6 text-ibc-navy group-hover:text-white"></i>
+                    </div>
+                    <h3 class="font-serif text-xl text-ibc-navy mb-3">Insolvency Resolution</h3>
+                    <p class="text-sm leading-relaxed mb-4">Acting as IRP/RP to manage debtor operations, ensuring compliance and preserving asset value during the CIRP process.</p>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="bg-ibc-cream p-8 rounded-sm shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300 border-t-4 border-transparent hover:border-ibc-gold group">
+                    <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center mb-6 shadow-sm group-hover:bg-ibc-navy group-hover:text-white transition-colors">
+                        <i data-lucide="trending-up" class="w-6 h-6 text-ibc-navy group-hover:text-white"></i>
+                    </div>
+                    <h3 class="font-serif text-xl text-ibc-navy mb-3">Business Turnaround</h3>
+                    <p class="text-sm leading-relaxed mb-4">Diagnosing financial distress and implementing strategic operational changes to restore viability and profitability.</p>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="bg-ibc-cream p-8 rounded-sm shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300 border-t-4 border-transparent hover:border-ibc-gold group">
+                    <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center mb-6 shadow-sm group-hover:bg-ibc-navy group-hover:text-white transition-colors">
+                        <i data-lucide="file-text" class="w-6 h-6 text-ibc-navy group-hover:text-white"></i>
+                    </div>
+                    <h3 class="font-serif text-xl text-ibc-navy mb-3">Resolution Plans</h3>
+                    <p class="text-sm leading-relaxed mb-4">Preparation and evaluation of robust resolution plans that balance the interests of all stakeholders involved.</p>
+                </div>
+
+                <!-- Card 4 -->
+                <div class="bg-ibc-cream p-8 rounded-sm shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300 border-t-4 border-transparent hover:border-ibc-gold group">
+                    <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center mb-6 shadow-sm group-hover:bg-ibc-navy group-hover:text-white transition-colors">
+                        <i data-lucide="globe" class="w-6 h-6 text-ibc-navy group-hover:text-white"></i>
+                    </div>
+                    <h3 class="font-serif text-xl text-ibc-navy mb-3">Cross-Border Advisory</h3>
+                    <p class="text-sm leading-relaxed mb-4">Handling complex international debt structuring and operational management, drawing on experience in Indonesia and Germany.</p>
+                </div>
+
+                <!-- Card 5 -->
+                <div class="bg-ibc-cream p-8 rounded-sm shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300 border-t-4 border-transparent hover:border-ibc-gold group">
+                    <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center mb-6 shadow-sm group-hover:bg-ibc-navy group-hover:text-white transition-colors">
+                        <i data-lucide="users" class="w-6 h-6 text-ibc-navy group-hover:text-white"></i>
+                    </div>
+                    <h3 class="font-serif text-xl text-ibc-navy mb-3">Stakeholder Management</h3>
+                    <p class="text-sm leading-relaxed mb-4">Chairing Monitoring Committees and serving as Authorized Representative (AR) for classes of creditors.</p>
+                </div>
+
+                <!-- Card 6 -->
+                <div class="bg-ibc-cream p-8 rounded-sm shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300 border-t-4 border-transparent hover:border-ibc-gold group">
+                    <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center mb-6 shadow-sm group-hover:bg-ibc-navy group-hover:text-white transition-colors">
+                        <i data-lucide="shield-check" class="w-6 h-6 text-ibc-navy group-hover:text-white"></i>
+                    </div>
+                    <h3 class="font-serif text-xl text-ibc-navy mb-3">Liquidation</h3>
+                    <p class="text-sm leading-relaxed mb-4">Executing liquidation processes, including Voluntary Liquidation, with strict adherence to regulatory frameworks.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Achievements / Track Record -->
+    <section id="track-record" class="py-20 bg-ibc-navy text-white relative overflow-hidden">
+        <!-- Background Pattern -->
+        <div class="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full blur-3xl -mr-32 -mt-32"></div>
+
+        <div class="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
+            <div class="mb-12 flex flex-col md:flex-row justify-between items-end">
+                <div>
+                    <span class="text-ibc-gold font-bold uppercase tracking-widest text-xs">Proven Results</span>
+                    <h2 class="font-serif text-4xl mt-2 text-white">Track Record & Milestones</h2>
+                </div>
+                <!-- Scroll Indicators -->
+                <div class="hidden md:flex space-x-2 pb-2">
+                    <span class="text-xs text-white/50">Scroll horizontal to view cases &rarr;</span>
+                </div>
+            </div>
+
+            <!-- Horizontal Scroll Container -->
+            <div class="flex overflow-x-auto space-x-6 pb-8 hide-scroll snap-x snap-mandatory">
+                
+                <!-- Case 1 -->
+                <div class="min-w-[300px] md:min-w-[400px] bg-ibc-darkNavy p-8 rounded-sm border-l-4 border-ibc-gold snap-center">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="text-ibc-gold text-xs font-bold uppercase border border-ibc-gold px-2 py-1 rounded-full">Automotive</span>
+                    </div>
+                    <h3 class="font-serif text-xl mb-3">Turnover Doubled to ₹250 Cr</h3>
+                    <p class="text-white/70 text-sm leading-relaxed">
+                        Ensured strategy to maintain viability of an over-leveraged Auto ancillary. Effectively deployed surplus to increase capacity and prepay expensive debt, improving credit rating from BB+ to A-.
+                    </p>
+                </div>
+
+                <!-- Case 2 -->
+                <div class="min-w-[300px] md:min-w-[400px] bg-ibc-darkNavy p-8 rounded-sm border-l-4 border-white/20 hover:border-ibc-gold transition-colors snap-center">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="text-ibc-gold text-xs font-bold uppercase border border-ibc-gold px-2 py-1 rounded-full">Global / Indonesia</span>
+                    </div>
+                    <h3 class="font-serif text-xl mb-3">Financial Closure During Crisis</h3>
+                    <p class="text-white/70 text-sm leading-relaxed">
+                        Achieved financial closure with lenders in Indonesia to double capacity to 150,000 MT/annum for a stainless-steel cold rolling mill during the 2008-09 global economic crisis.
+                    </p>
+                </div>
+
+                <!-- Case 3 -->
+                <div class="min-w-[300px] md:min-w-[400px] bg-ibc-darkNavy p-8 rounded-sm border-l-4 border-white/20 hover:border-ibc-gold transition-colors snap-center">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="text-ibc-gold text-xs font-bold uppercase border border-ibc-gold px-2 py-1 rounded-full">International / Germany</span>
+                    </div>
+                    <h3 class="font-serif text-xl mb-3">€100M Debt Remodelling</h3>
+                    <p class="text-white/70 text-sm leading-relaxed">
+                        Remodelled Euro 100 million debt for the German subsidiary of an Auto ancillary. Strategically positioned security sharing and financial covenants among lending institutions.
+                    </p>
+                </div>
+
+                <!-- Case 4 -->
+                <div class="min-w-[300px] md:min-w-[400px] bg-ibc-darkNavy p-8 rounded-sm border-l-4 border-white/20 hover:border-ibc-gold transition-colors snap-center">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="text-ibc-gold text-xs font-bold uppercase border border-ibc-gold px-2 py-1 rounded-full">Strategic M&A</span>
+                    </div>
+                    <h3 class="font-serif text-xl mb-3">Growth & Acquisition</h3>
+                    <p class="text-white/70 text-sm leading-relaxed">
+                        Implemented growth strategy for a packaging company, achieving financial closure for expansion at the bottom of the industry cycle, leading to the strategic acquisition of its closest competitor.
+                    </p>
+                </div>
+
+                <!-- Case 5 -->
+                <div class="min-w-[300px] md:min-w-[400px] bg-ibc-darkNavy p-8 rounded-sm border-l-4 border-white/20 hover:border-ibc-gold transition-colors snap-center">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="text-ibc-gold text-xs font-bold uppercase border border-ibc-gold px-2 py-1 rounded-full">Dispute Resolution</span>
+                    </div>
+                    <h3 class="font-serif text-xl mb-3">₹400 Cr Claims Settled</h3>
+                    <p class="text-white/70 text-sm leading-relaxed">
+                        Successfully settled pending cases, claims, counterclaims, and disputes amounting to over Rs 400 Crores for a projects company.
+                    </p>
+                </div>
+
+                <!-- Case 6 -->
+                <div class="min-w-[300px] md:min-w-[400px] bg-ibc-darkNavy p-8 rounded-sm border-l-4 border-white/20 hover:border-ibc-gold transition-colors snap-center">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="text-ibc-gold text-xs font-bold uppercase border border-ibc-gold px-2 py-1 rounded-full">Turnaround</span>
+                    </div>
+                    <h3 class="font-serif text-xl mb-3">Strategic Turnaround</h3>
+                    <p class="text-white/70 text-sm leading-relaxed">
+                        Turned around a sheet metal business of strategic importance by categorizing products, identifying talent gaps, and institutionalizing organizational learning.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-20 bg-[#FDF8ED] relative overflow-hidden">
+    <div class="container mx-auto px-6">
+        <div class="text-center mb-16">
+            <h2 class="text-4xl md:text-5xl font-bold text-[#3E447A] mb-4" style="font-family: 'Playfair Display', serif;">
+                Our Presence
+            </h2>
+            <div class="w-24 h-1 bg-[#D4AF37] mx-auto"></div>
+            <p class="mt-4 text-[#5E6282] max-w-2xl mx-auto text-lg">
+                Serving clients across key legal and commercial hubs in India.
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            
+            <div class="relative bg-white p-8 rounded-sm shadow-xl border-t-4 border-[#D4AF37]">
+                <div class="relative w-full aspect-[4/5] bg-[#FDF8ED] rounded-inner flex items-center justify-center overflow-hidden">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/bb/India_blank_map.svg/800px-India_blank_map.svg.png" 
+                         alt="Map of India" 
+                         class="w-full h-full object-contain opacity-80 mix-blend-multiply">
+                    
+                    <div class="absolute top-[22%] left-[32%] group cursor-pointer">
+                        <div class="w-4 h-4 bg-[#D4AF37] rounded-full shadow-lg animate-pulse border-2 border-white"></div>
+                        <span class="absolute left-6 top-[-4px] text-[#3E447A] font-bold text-sm opacity-0 group-hover:opacity-100 transition-opacity bg-white px-2 py-1 shadow-sm whitespace-nowrap">Chandigarh</span>
+                    </div>
+                    <div class="absolute top-[28%] left-[33%] group cursor-pointer">
+                        <div class="w-4 h-4 bg-[#3E447A] rounded-full shadow-lg border-2 border-white"></div>
+                        <span class="absolute left-6 top-[-4px] text-[#3E447A] font-bold text-sm bg-white px-2 py-1 shadow-sm whitespace-nowrap">Delhi</span>
+                    </div>
+                    <div class="absolute top-[45%] left-[15%] group cursor-pointer">
+                        <div class="w-4 h-4 bg-[#D4AF37] rounded-full shadow-lg border-2 border-white"></div>
+                        <span class="absolute left-6 top-[-4px] text-[#3E447A] font-bold text-sm opacity-0 group-hover:opacity-100 transition-opacity bg-white px-2 py-1 shadow-sm whitespace-nowrap">Ahmedabad</span>
+                    </div>
+                    <div class="absolute top-[48%] left-[75%] group cursor-pointer">
+                        <div class="w-4 h-4 bg-[#D4AF37] rounded-full shadow-lg border-2 border-white"></div>
+                        <span class="absolute left-6 top-[-4px] text-[#3E447A] font-bold text-sm opacity-0 group-hover:opacity-100 transition-opacity bg-white px-2 py-1 shadow-sm whitespace-nowrap">Calcutta</span>
+                    </div>
+                    <div class="absolute top-[78%] left-[35%] group cursor-pointer">
+                        <div class="w-4 h-4 bg-[#D4AF37] rounded-full shadow-lg border-2 border-white"></div>
+                        <span class="absolute left-6 top-[-4px] text-[#3E447A] font-bold text-sm opacity-0 group-hover:opacity-100 transition-opacity bg-white px-2 py-1 shadow-sm whitespace-nowrap">Bangalore</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="space-y-4">
+                <h3 class="text-2xl text-[#3E447A] font-bold mb-6" style="font-family: 'Playfair Display', serif;">
+                    Strategic Locations
+                </h3>
+                
+                <div class="grid grid-cols-1 gap-4">
+                    <div class="bg-white p-5 rounded-sm shadow-md hover:-translate-y-1 transition-transform duration-300 border-l-4 border-[#3E447A] flex justify-between items-center group">
+                        <div>
+                            <h4 class="font-bold text-[#3E447A] text-lg">Delhi (NCR)</h4>
+                            <p class="text-sm text-[#5E6282]">Headquarters</p>
+                        </div>
+                        <span class="text-[#D4AF37] opacity-0 group-hover:opacity-100 transition-opacity">→</span>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-sm shadow-md hover:-translate-y-1 transition-transform duration-300 border-l-4 border-transparent hover:border-[#D4AF37] flex justify-between items-center group">
+                        <div>
+                            <h4 class="font-bold text-[#3E447A] text-lg">Chandigarh</h4>
+                            <p class="text-sm text-[#5E6282]">Regional Office</p>
+                        </div>
+                        <span class="text-[#D4AF37] opacity-0 group-hover:opacity-100 transition-opacity">→</span>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-sm shadow-md hover:-translate-y-1 transition-transform duration-300 border-l-4 border-transparent hover:border-[#D4AF37] flex justify-between items-center group">
+                        <div>
+                            <h4 class="font-bold text-[#3E447A] text-lg">Ahmedabad</h4>
+                            <p class="text-sm text-[#5E6282]">Regional Office</p>
+                        </div>
+                        <span class="text-[#D4AF37] opacity-0 group-hover:opacity-100 transition-opacity">→</span>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-sm shadow-md hover:-translate-y-1 transition-transform duration-300 border-l-4 border-transparent hover:border-[#D4AF37] flex justify-between items-center group">
+                        <div>
+                            <h4 class="font-bold text-[#3E447A] text-lg">Calcutta</h4>
+                            <p class="text-sm text-[#5E6282]">Regional Office</p>
+                        </div>
+                        <span class="text-[#D4AF37] opacity-0 group-hover:opacity-100 transition-opacity">→</span>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-sm shadow-md hover:-translate-y-1 transition-transform duration-300 border-l-4 border-transparent hover:border-[#D4AF37] flex justify-between items-center group">
+                        <div>
+                            <h4 class="font-bold text-[#3E447A] text-lg">Bangalore</h4>
+                            <p class="text-sm text-[#5E6282]">Regional Office</p>
+                        </div>
+                        <span class="text-[#D4AF37] opacity-0 group-hover:opacity-100 transition-opacity">→</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+    <!-- Contact / Footer -->
+    <footer id="contact" class="bg-ibc-darkNavy text-white pt-20 pb-10 border-t border-white/10">
+        <div class="max-w-7xl mx-auto px-6 md:px-12 grid md:grid-cols-2 gap-16">
+            
+            <!-- Left: Contact Info -->
+            <div>
+                <h2 class="font-serif text-3xl mb-6">Get in Touch</h2>
+                <p class="text-gray-400 mb-8 max-w-md">
+                    For inquiries regarding Insolvency Resolution, Transaction Advisory, or Business Turnaround, please reach out directly.
+                </p>
+                
+                <div class="space-y-4">
+                    <div class="flex items-start">
+                        <i data-lucide="map-pin" class="w-5 h-5 text-ibc-gold mt-1 mr-4"></i>
+                        <span>New Delhi, India (Headquarters)</span>
+                    </div>
+                    <div class="flex items-center">
+                        <i data-lucide="mail" class="w-5 h-5 text-ibc-gold mr-4"></i>
+                        <a href="mailto:info@aarshrp.com" class="hover:text-ibc-gold transition-colors">info@aarshrp.com</a>
+                    </div>
+                    <div class="flex items-center">
+                        <i data-lucide="phone" class="w-5 h-5 text-ibc-gold mr-4"></i>
+                        <span>+91 XXXXX XXXXX</span>
+                    </div>
+                </div>
+
+                <div class="mt-12 pt-8 border-t border-white/10">
+                    <span class="font-serif text-2xl font-bold tracking-wide">AARSH<span class="text-ibc-gold">.</span></span>
+                    <p class="text-xs text-gray-500 mt-2">© 2024 Aarsh Resolution Professionals Pvt Ltd. All Rights Reserved.</p>
+                </div>
+            </div>
+
+            <!-- Right: Simple Form -->
+            <div class="bg-white/5 p-8 rounded-sm border border-white/10">
+                <form class="space-y-4">
+                    <div>
+                        <label class="block text-xs font-bold uppercase text-ibc-gold mb-2">Name</label>
+                        <input type="text" class="w-full bg-white/10 border border-white/20 p-3 text-white focus:outline-none focus:border-ibc-gold transition-colors rounded-sm">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold uppercase text-ibc-gold mb-2">Email</label>
+                        <input type="email" class="w-full bg-white/10 border border-white/20 p-3 text-white focus:outline-none focus:border-ibc-gold transition-colors rounded-sm">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold uppercase text-ibc-gold mb-2">Message</label>
+                        <textarea rows="4" class="w-full bg-white/10 border border-white/20 p-3 text-white focus:outline-none focus:border-ibc-gold transition-colors rounded-sm"></textarea>
+                    </div>
+                    <button class="w-full bg-ibc-gold text-ibc-navy font-bold uppercase text-sm py-4 hover:bg-white transition-colors rounded-sm">
+                        Send Message
+                    </button>
+                </form>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Icon Script -->
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>
