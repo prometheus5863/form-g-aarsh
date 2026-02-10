@@ -99,6 +99,7 @@ async function fetchSheetData() {
 }
 
 // --- RENDERING ---
+// --- RENDERING ---
 function renderTable(page) {
     currentPage = page;
     const start = (page - 1) * CONFIG.ITEMS_PER_PAGE;
@@ -114,35 +115,42 @@ function renderTable(page) {
     }
 
     tbody.innerHTML = pageData.map(item => `
-        <tr>
-            <td>
-                <div class="company-cell">
-                    <span class="company-name" style="font-weight:600; color:#1B2430;">${item.company}</span>
-                    <span class="company-id" style="font-size:11px; color:#9CA3AF; font-family:'JetBrains Mono'">${item.cin}</span>
+        <tr style="border-bottom: 1px solid #E5E7EB; transition: background 0.2s;" onmouseover="this.style.background='#F9F5F0'" onmouseout="this.style.background='transparent'">
+            <td style="padding: 18px 24px;">
+                <div class="company-cell" style="display:flex; flex-direction:column; gap:4px;">
+                    <span class="company-name" style="font-weight:700; color:#1B2430; font-size:15px;">${item.company}</span>
+                    <span class="company-id" style="font-size:11px; color:#9CA3AF; font-family:'JetBrains Mono', monospace; letter-spacing:0.5px;">${item.cin}</span>
                 </div>
             </td>
-            <td><span style="font-family: 'JetBrains Mono', monospace; font-size: 12px;">${item.caseNumber}</span></td>
-            <td>
-                <span class="status-badge ${getStatusClass(item.status)}">
-                    ${item.status}
+            <td style="padding: 18px 24px;">
+                <span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color:#4B5563;">${item.caseNumber}</span>
+            </td>
+            <td style="padding: 18px 24px;">
+                <span class="status-badge ${getStatusClass(item.status)}" 
+                      style="display:inline-flex; align-items:center; gap:6px; padding:6px 12px; border-radius:4px; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.5px; background:${getStatusColor(item.status).bg}; color:${getStatusColor(item.status).text}; border:1px solid ${getStatusColor(item.status).border};">
+                    ${getStatusIcon(item.status)} ${item.status}
                 </span>
             </td>
-            <td>
-                <div class="rp-cell" style="display:flex; align-items:center; gap:8px;">
-                    <div class="rp-avatar" style="width:24px; height:24px; background:#D4AF37; color:#1B2430; font-size:10px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:bold;">
+            <td style="padding: 18px 24px;">
+                <div class="rp-cell" style="display:flex; align-items:center; gap:12px;">
+                    <div class="rp-avatar" style="width:32px; height:32px; border-radius:4px; background:linear-gradient(135deg, #1B2430, #374151); display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:700; color:#D4AF37;">
                         ${getInitials(item.rp)}
                     </div>
-                    <span class="rp-name">${item.rp}</span>
+                    <span class="rp-name" style="font-weight:600; color:#1B2430; font-size:14px;">${item.rp}</span>
                 </div>
             </td>
-            <td>
-                ${item.formG && item.formG.includes('http') 
-                    ? `<a href="${item.formG}" target="_blank" class="form-g-link" style="color:#D4AF37; text-decoration:none; font-weight:600; font-size:12px;"><i class="fas fa-file-pdf"></i> View</a>` 
+            <td style="padding: 18px 24px;">
+                ${item.formG.includes('http') 
+                    ? `<a href="${item.formG}" target="_blank" class="form-g-link" style="display:inline-flex; align-items:center; gap:6px; padding:8px 12px; background:#F9F5F0; border:1px solid #D4AF37; border-radius:4px; color:#1B2430; text-decoration:none; font-size:12px; font-weight:600; transition:all 0.2s;">
+                        <i class="fas fa-file-pdf" style="color:#D4AF37;"></i> View
+                       </a>` 
                     : '<span style="color:#ccc; font-size:12px;">--</span>'}
             </td>
-            <td class="date-cell" style="font-family:'JetBrains Mono'; font-size:12px;">${item.date}</td>
-            <td>
-                <button class="action-btn" onclick="openModal(${item.id})" style="border:1px solid #E5E7EB; background:white; cursor:pointer; padding:6px 10px; border-radius:4px;">
+            <td class="date-cell" style="padding: 18px 24px; font-family:'JetBrains Mono', monospace; font-size:12px; color:#4B5563;">
+                ${item.date}
+            </td>
+            <td style="padding: 18px 24px;">
+                <button onclick="openModal(${item.id})" class="action-btn" style="width:32px; height:32px; background:white; border:1px solid #E5E7EB; border-radius:4px; color:#4B5563; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:all 0.2s;">
                     <i class="fas fa-eye"></i>
                 </button>
             </td>
@@ -150,6 +158,23 @@ function renderTable(page) {
     `).join('');
     
     updatePagination();
+}
+
+// --- HELPER FUNCTIONS FOR STYLES ---
+function getStatusColor(status) {
+    status = status.toLowerCase();
+    if (status.includes('cirp')) return { bg: 'rgba(59, 130, 246, 0.1)', text: '#3B82F6', border: 'rgba(59, 130, 246, 0.3)' };
+    if (status.includes('liquid')) return { bg: 'rgba(239, 68, 68, 0.1)', text: '#EF4444', border: 'rgba(239, 68, 68, 0.3)' };
+    if (status.includes('resolved')) return { bg: 'rgba(16, 185, 129, 0.1)', text: '#10B981', border: 'rgba(16, 185, 129, 0.3)' };
+    return { bg: 'rgba(245, 158, 11, 0.1)', text: '#F59E0B', border: 'rgba(245, 158, 11, 0.3)' };
+}
+
+function getStatusIcon(status) {
+    status = status.toLowerCase();
+    if (status.includes('cirp')) return '<i class="fas fa-bolt"></i>';
+    if (status.includes('liquid')) return '<i class="fas fa-tint"></i>';
+    if (status.includes('resolved')) return '<i class="fas fa-check"></i>';
+    return '<i class="fas fa-file-alt"></i>';
 }
 
 // --- PAGINATION ---
