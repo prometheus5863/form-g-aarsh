@@ -4,107 +4,99 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard | AARSH Resolution Professionals</title>
-    <meta name="robots" content="noindex, nofollow">
-    
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
     <link rel="stylesheet" href="style.css">
-    
-    <style>
-        body { background: var(--ibc-cream); min-height: 100vh; }
-        .sidebar { position: fixed; left: 0; top: 0; bottom: 0; width: 280px; background: var(--ibc-navy); z-index: 100; }
-        .main-content { margin-left: 280px; min-height: 100vh; }
-        
-        /* Responsive Fixes */
-        @media (max-width: 768px) {
-            .sidebar { display: none; }
-            .main-content { margin-left: 0; }
-        }
-    </style>
 </head>
 <body>
 
     <aside class="sidebar">
-        <div class="sidebar-header" style="padding: 24px; border-bottom: 1px solid rgba(255,255,255,0.1);">
-            <div class="logo" style="display: flex; flex-direction: column;">
-                <div class="logo-text" style="font-family: 'Playfair Display'; font-weight: 700; font-size: 24px; color: white;">AARSH<span style="color: #D4AF37;">.</span></div>
-                <div class="logo-subtitle" style="font-size: 10px; color: rgba(255,255,255,0.5); letter-spacing: 2px; text-transform: uppercase;">Resolution Professionals</div>
-            </div>
+        <div class="sidebar-header">
+            <div class="logo-text">AARSH<span>.</span></div>
+            <div class="logo-subtitle">Resolution Professionals</div>
         </div>
         
-        <nav class="sidebar-nav" style="padding: 20px;">
-            <div style="margin-bottom: 12px; font-size: 10px; font-weight: 600; color: #D4AF37; text-transform: uppercase; letter-spacing: 2px; padding: 0 12px;">Main</div>
-            <a href="#" class="nav-item active" style="display: flex; align-items:center; gap: 12px; padding: 12px; color: #D4AF37; background: rgba(212, 175, 55, 0.15); border-radius: 4px; text-decoration: none; margin-bottom: 4px;">
-                <i class="fas fa-chart-pie" style="width:20px; text-align:center;"></i> <span>Dashboard</span>
+        <nav class="sidebar-nav">
+            <div class="nav-section-title">Main</div>
+            <a href="#" class="nav-item active">
+                <i class="fas fa-chart-pie" style="width:20px"></i> Dashboard
             </a>
-            <a href="#" class="nav-item" style="display: flex; align-items:center; gap: 12px; padding: 12px; color: rgba(255,255,255,0.7); text-decoration: none;">
-                <i class="fas fa-file-contract" style="width:20px; text-align:center;"></i> <span>IPE Assignments</span>
+            <a href="#" class="nav-item">
+                <i class="fas fa-file-contract" style="width:20px"></i> IPE Assignments
             </a>
+            
+            <div class="nav-section-title" style="margin-top:20px;">Analysis</div>
+            <a href="#" class="nav-item"><i class="fas fa-chart-line" style="width:20px"></i> Statistics</a>
+            <a href="#" class="nav-item"><i class="fas fa-search" style="width:20px"></i> Search Cases</a>
         </nav>
 
-        <div class="sidebar-footer" style="position: absolute; bottom: 0; width: 100%; padding: 20px; border-top: 1px solid rgba(255,255,255,0.1);">
-            <div class="user-info" style="display: flex; gap: 10px; align-items: center;">
-                <div id="userAvatar" style="width: 35px; height: 35px; background: linear-gradient(135deg, #D4AF37, #e6c555); border-radius: 4px; display: flex; align-items: center; justify-content: center; font-weight: bold; color: #1B2430;">AU</div>
+        <div class="sidebar-footer">
+            <div class="user-card">
+                <div class="user-avatar" id="userAvatar">AU</div>
                 <div>
-                    <div id="userName" style="color: white; font-size: 13px; font-weight: 600;">Admin User</div>
-                    <div style="color: rgba(255,255,255,0.5); font-size: 11px;">Administrator</div>
+                    <div style="font-weight:600; font-size:13px;" id="userName">Admin User</div>
+                    <div style="font-size:11px; opacity:0.7;">Administrator</div>
                 </div>
-                <button id="logoutBtn" style="margin-left: auto; background: none; border: none; color: rgba(255,255,255,0.5); cursor: pointer;"><i class="fas fa-sign-out-alt"></i></button>
+                <button id="logoutBtn" style="margin-left:auto; background:none; border:none; color:rgba(255,255,255,0.6); cursor:pointer;"><i class="fas fa-sign-out-alt"></i></button>
             </div>
         </div>
     </aside>
 
     <main class="main-content">
-        <header class="topbar" style="background: white; padding: 16px 32px; border-bottom: 1px solid #E5E7EB; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 50;">
-            <h1 class="page-title" style="font-family: 'Playfair Display'; font-size: 24px; color: #1B2430; font-weight: 600;">IPE Assignments Dashboard</h1>
-            <div class="search-box" style="background: #F9F5F0; padding: 10px 16px; border-radius: 4px; border: 1px solid #E5E7EB; width: 300px; display: flex; gap: 10px; align-items: center;">
-                <i class="fas fa-search" style="color: #9CA3AF;"></i>
-                <input type="text" id="searchInput" placeholder="Search cases..." style="border: none; background: transparent; outline: none; width: 100%; color: #1B2430;">
+        <header class="topbar">
+            <h1 class="page-title">IPE Assignments Dashboard</h1>
+            <div class="search-container">
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" id="searchInput" class="search-input" placeholder="Search companies, RPs...">
             </div>
         </header>
 
-        <div class="content-area" style="padding: 32px;">
-            <div class="stats-grid" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; margin-bottom: 32px;">
-                <div class="stat-card" style="background: white; padding: 24px; border-top: 4px solid #D4AF37; border-radius: 4px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);">
-                    <div style="display: flex; justify-content: space-between; margin-bottom: 16px;">
-                        <span style="font-size: 12px; font-weight: 600; color: #4B5563; text-transform: uppercase;">Total Assignments</span>
-                        <i class="fas fa-file-contract" style="color: #D4AF37;"></i>
-                    </div>
-                    <div class="stat-value" style="font-size: 36px; font-weight: 700; color: #1B2430; font-family: 'Playfair Display';">0</div>
+        <div class="content-wrapper">
+            
+            <div class="stats-row">
+                <div class="stat-card">
+                    <div class="stat-label">Total Assignments <i class="fas fa-file-contract"></i></div>
+                    <div class="stat-number stat-value">--</div>
                 </div>
+                <div class="stat-card blue">
+                    <div class="stat-label">Active CIRP <i class="fas fa-bolt"></i></div>
+                    <div class="stat-number">89</div>
+                </div>
+                <div class="stat-card orange">
+                    <div class="stat-label">Liquidation <i class="fas fa-tint"></i></div>
+                    <div class="stat-number">63</div>
+                </div>
+                <div class="stat-card green">
+                    <div class="stat-label">Resolved <i class="fas fa-check"></i></div>
+                    <div class="stat-number">95</div>
+                </div>
+            </div>
+
+            <div class="table-card">
+                <div class="table-header-row">
+                    <h2 style="font-family:'Playfair Display'; font-size:18px; color:var(--ibc-navy);">Recent Assignments</h2>
+                    <button class="btn-primary export-btn"><i class="fas fa-download"></i> Export CSV</button>
                 </div>
 
-            <div class="table-section" style="background: white; border: 1px solid #E5E7EB; border-radius: 4px; overflow: hidden;">
-                <div class="table-header" style="padding: 20px 24px; border-bottom: 1px solid #E5E7EB; display: flex; justify-content: space-between; align-items: center; background: #F9F5F0;">
-                    <h2 style="font-family: 'Playfair Display'; font-size: 20px; font-weight: 600; color: #1B2430;">Recent Assignments</h2>
-                    <button class="export-btn" style="background: #1B2430; color: white; border: none; padding: 10px 16px; border-radius: 4px; font-size: 13px; font-weight: 600; cursor: pointer;">
-                        <i class="fas fa-download" style="margin-right: 8px;"></i> Export CSV
-                    </button>
-                </div>
-                
-                <table class="data-table" style="width: 100%; border-collapse: collapse;">
+                <table class="custom-table">
                     <thead>
                         <tr>
-                            <th style="text-align: left; padding: 14px 20px; background: #1B2430; color: #D4AF37; font-size: 11px; text-transform: uppercase;">Corporate Debtor</th>
-                            <th style="text-align: left; padding: 14px 20px; background: #1B2430; color: #D4AF37; font-size: 11px; text-transform: uppercase;">Sector</th>
-                            <th style="text-align: left; padding: 14px 20px; background: #1B2430; color: #D4AF37; font-size: 11px; text-transform: uppercase;">Status</th>
-                            <th style="text-align: left; padding: 14px 20px; background: #1B2430; color: #D4AF37; font-size: 11px; text-transform: uppercase;">RP Name</th>
-                            <th style="text-align: left; padding: 14px 20px; background: #1B2430; color: #D4AF37; font-size: 11px; text-transform: uppercase;">Form G</th>
-                            <th style="text-align: left; padding: 14px 20px; background: #1B2430; color: #D4AF37; font-size: 11px; text-transform: uppercase;">Date</th>
-                            <th style="padding: 14px 20px; background: #1B2430;"></th>
+                            <th>Corporate Debtor</th>
+                            <th>Sector</th>
+                            <th>Status</th>
+                            <th>RP Name</th>
+                            <th>Form G</th>
+                            <th>Date</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody id="assignmentsTable">
                         </tbody>
                 </table>
 
-                <div class="table-footer" style="padding: 16px 24px; border-top: 1px solid #E5E7EB; display: flex; justify-content: space-between; align-items: center; background: #F9F5F0;">
-                    <div class="pagination-info" style="font-size: 13px; color: #4B5563;">Loading...</div>
-                    <div class="pagination" style="display: flex; gap: 4px;"></div>
+                <div style="padding:16px; border-top:1px solid #E5E7EB; display:flex; justify-content:space-between; align-items:center;">
+                    <span class="pagination-info" style="font-size:13px; color:#6B7280;">Loading...</span>
+                    <div class="pagination" style="display:flex; gap:5px;"></div>
                 </div>
             </div>
         </div>
@@ -112,14 +104,10 @@
 
     <div id="detailModal" class="modal-overlay">
         <div class="modal-content">
-            <div class="modal-header">
-                <h3 id="modalTitle">Case Details</h3>
-                <button onclick="closeModal()" class="close-modal">&times;</button>
-            </div>
-            <div class="modal-body" id="modalBody">
-                </div>
-            <div class="modal-footer">
-                <button onclick="closeModal()" class="modal-btn secondary">Close</button>
+            <h3 id="modalTitle" style="font-family:'Playfair Display'; font-size:20px; color:var(--ibc-navy); margin-bottom:20px;">Details</h3>
+            <div id="modalBody"></div>
+            <div style="margin-top:20px; text-align:right;">
+                <button onclick="closeModal()" style="padding:8px 16px; border:1px solid #ddd; background:white; border-radius:4px; cursor:pointer;">Close</button>
             </div>
         </div>
     </div>
