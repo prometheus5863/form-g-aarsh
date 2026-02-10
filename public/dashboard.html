@@ -9,980 +9,122 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
+    <link rel="stylesheet" href="style.css">
+    
     <style>
-        :root {
-            --ibc-navy: #1B2430;
-            --ibc-darkNavy: #111827;
-            --ibc-gold: #D4AF37;
-            --ibc-gold-light: #e6c555;
-            --ibc-cream: #F9F5F0;
-            --ibc-slate: #4B5563;
-            --text-muted: #9CA3AF;
-            --border: #E5E7EB;
-            --success: #10B981;
-            --warning: #F59E0B;
-            --info: #3B82F6;
-            --error: #EF4444;
-        }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: 'Inter', sans-serif;
-            background: var(--ibc-cream);
-            color: var(--ibc-slate);
-            min-height: 100vh;
-        }
-        
-        /* Sidebar */
-        .sidebar {
-            position: fixed;
-            left: 0;
-            top: 0;
-            bottom: 0;
-            width: 280px;
-            background: var(--ibc-navy);
-            display: flex;
-            flex-direction: column;
-            z-index: 100;
-        }
-        
-        .sidebar-header {
-            padding: 24px;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-        }
-        
-        .logo {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-        }
-        
-        .logo-text {
-            font-family: 'Playfair Display', serif;
-            font-weight: 700;
-            font-size: 24px;
-            color: white;
-            letter-spacing: 2px;
-        }
-        
-        .logo-text span { color: var(--ibc-gold); }
-        
-        .logo-subtitle {
-            font-size: 10px;
-            color: rgba(255,255,255,0.5);
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-        
-        .sidebar-nav {
-            flex: 1;
-            padding: 20px 16px;
-            overflow-y: auto;
-        }
-        
-        .nav-section {
-            margin-bottom: 28px;
-        }
-        
-        .nav-section-title {
-            font-size: 10px;
-            font-weight: 600;
-            color: var(--ibc-gold);
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            padding: 0 12px;
-            margin-bottom: 12px;
-        }
-        
-        .nav-item {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 12px;
-            border-radius: 4px;
-            color: rgba(255,255,255,0.7);
-            text-decoration: none;
-            font-size: 14px;
-            font-weight: 500;
-            transition: all 0.15s;
-            cursor: pointer;
-            margin-bottom: 4px;
-        }
-        
-        .nav-item:hover {
-            background: rgba(255,255,255,0.05);
-            color: white;
-        }
-        
-        .nav-item.active {
-            background: rgba(212, 175, 55, 0.15);
-            color: var(--ibc-gold);
-        }
-        
-        .nav-icon {
-            font-size: 16px;
-            width: 20px;
-            text-align: center;
-        }
-        
-        .nav-badge {
-            margin-left: auto;
-            background: var(--ibc-gold);
-            color: var(--ibc-navy);
-            font-size: 11px;
-            font-weight: 700;
-            padding: 2px 8px;
-            border-radius: 10px;
-        }
-        
-        .sidebar-footer {
-            padding: 16px;
-            border-top: 1px solid rgba(255,255,255,0.1);
-        }
-        
-        .user-info {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 12px;
-            background: var(--ibc-darkNavy);
-            border-radius: 4px;
-        }
-        
-        .user-avatar {
-            width: 40px;
-            height: 40px;
-            background: linear-gradient(135deg, var(--ibc-gold), var(--ibc-gold-light));
-            border-radius: 4px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            font-size: 14px;
-            color: var(--ibc-navy);
-        }
-        
-        .user-details {
-            flex: 1;
-            min-width: 0;
-        }
-        
-        .user-name {
-            font-size: 13px;
-            font-weight: 600;
-            color: white;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-        
-        .user-role {
-            font-size: 11px;
-            color: rgba(255,255,255,0.5);
-        }
-        
-        .logout-btn {
-            background: none;
-            border: none;
-            color: rgba(255,255,255,0.5);
-            cursor: pointer;
-            padding: 8px;
-            border-radius: 4px;
-            transition: all 0.15s;
-        }
-        
-        .logout-btn:hover {
-            background: rgba(239, 68, 68, 0.2);
-            color: #FCA5A5;
-        }
-        
-        /* Main Content */
-        .main-content {
-            margin-left: 280px;
-            min-height: 100vh;
-        }
-        
-        .topbar {
-            position: sticky;
-            top: 0;
-            background: white;
-            border-bottom: 1px solid var(--border);
-            padding: 16px 32px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            z-index: 50;
-        }
-        
-        .page-title {
-            font-family: 'Playfair Display', serif;
-            font-size: 24px;
-            font-weight: 600;
-            color: var(--ibc-navy);
-        }
-        
-        .topbar-actions {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        
-        .search-box {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            background: var(--ibc-cream);
-            border: 1px solid var(--border);
-            border-radius: 4px;
-            padding: 10px 16px;
-            min-width: 300px;
-        }
-        
-        .search-box input {
-            background: none;
-            border: none;
-            color: var(--ibc-navy);
-            font-size: 14px;
-            width: 100%;
-            outline: none;
-        }
-        
-        .search-box input::placeholder {
-            color: var(--text-muted);
-        }
-        
-        .icon-btn {
-            width: 42px;
-            height: 42px;
-            background: var(--ibc-cream);
-            border: 1px solid var(--border);
-            border-radius: 4px;
-            color: var(--ibc-slate);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 16px;
-            transition: all 0.15s;
-        }
-        
-        .icon-btn:hover {
-            background: white;
-            border-color: var(--ibc-gold);
-            color: var(--ibc-gold);
-        }
-        
-        .content-area {
-            padding: 32px;
-        }
-        
-        /* Stats Cards */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 24px;
-            margin-bottom: 32px;
-        }
-        
-        .stat-card {
-            background: white;
-            border: 1px solid var(--border);
-            border-radius: 4px;
-            padding: 24px;
-            border-top: 4px solid var(--ibc-gold);
-            transition: all 0.2s;
-        }
-        
-        .stat-card:hover {
-            box-shadow: 0 10px 40px rgba(27, 36, 48, 0.1);
-            transform: translateY(-2px);
-        }
-        
-        .stat-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 16px;
-        }
-        
-        .stat-label {
-            font-size: 12px;
-            color: var(--ibc-slate);
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        
-        .stat-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 4px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
-        }
-        
-        .stat-icon.gold { background: rgba(212, 175, 55, 0.15); color: var(--ibc-gold); }
-        .stat-icon.blue { background: rgba(59, 130, 246, 0.15); color: var(--info); }
-        .stat-icon.green { background: rgba(16, 185, 129, 0.15); color: var(--success); }
-        .stat-icon.orange { background: rgba(245, 158, 11, 0.15); color: var(--warning); }
-        
-        .stat-value {
-            font-family: 'Playfair Display', serif;
-            font-size: 36px;
-            font-weight: 700;
-            color: var(--ibc-navy);
-            margin-bottom: 4px;
-        }
-        
-        .stat-change {
-            font-size: 12px;
-            display: flex;
-            align-items: center;
-            gap: 4px;
-        }
-        
-        .stat-change.up { color: var(--success); }
-        .stat-change.down { color: var(--error); }
-        
-        /* Table Section */
-        .table-section {
-            background: white;
-            border: 1px solid var(--border);
-            border-radius: 4px;
-            overflow: hidden;
-        }
-        
-        .table-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 20px 24px;
-            border-bottom: 1px solid var(--border);
-            background: var(--ibc-cream);
-        }
-        
-        .table-title {
-            font-family: 'Playfair Display', serif;
-            font-size: 20px;
-            font-weight: 600;
-            color: var(--ibc-navy);
-        }
-        
-        .table-actions {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        
-        .filter-btn {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 10px 16px;
-            background: white;
-            border: 1px solid var(--border);
-            border-radius: 4px;
-            color: var(--ibc-slate);
-            font-size: 13px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.15s;
-        }
-        
-        .filter-btn:hover {
-            border-color: var(--ibc-gold);
-            color: var(--ibc-navy);
-        }
-        
-        .export-btn {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 10px 16px;
-            background: var(--ibc-navy);
-            border: none;
-            border-radius: 4px;
-            color: white;
-            font-size: 13px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.15s;
-        }
-        
-        .export-btn:hover {
-            background: var(--ibc-gold);
-            color: var(--ibc-navy);
-        }
-        
-        /* Data Table */
-        .data-table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        
-        .data-table th {
-            text-align: left;
-            padding: 14px 20px;
-            font-size: 11px;
-            font-weight: 700;
-            color: var(--ibc-gold);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            background: var(--ibc-navy);
-            border-bottom: 1px solid var(--border);
-        }
-        
-        .data-table td {
-            padding: 18px 20px;
-            font-size: 14px;
-            border-bottom: 1px solid var(--border);
-            vertical-align: middle;
-            color: var(--ibc-slate);
-        }
-        
-        .data-table tr:last-child td {
-            border-bottom: none;
-        }
-        
-        .data-table tr:hover {
-            background: rgba(249, 245, 240, 0.5);
-        }
-        
-        .company-cell {
-            display: flex;
-            flex-direction: column;
-            gap: 2px;
-        }
-        
-        .company-name {
-            font-weight: 600;
-            color: var(--ibc-navy);
-        }
-        
-        .company-id {
-            font-size: 11px;
-            color: var(--text-muted);
-            font-family: 'JetBrains Mono', monospace;
-        }
-        
-        .status-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            padding: 5px 12px;
-            border-radius: 4px;
-            font-size: 11px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        
-        .status-badge.cirp {
-            background: rgba(59, 130, 246, 0.1);
-            color: var(--info);
-            border: 1px solid rgba(59, 130, 246, 0.3);
-        }
-        
-        .status-badge.liquidation {
-            background: rgba(239, 68, 68, 0.1);
-            color: var(--error);
-            border: 1px solid rgba(239, 68, 68, 0.3);
-        }
-        
-        .status-badge.resolved {
-            background: rgba(16, 185, 129, 0.1);
-            color: var(--success);
-            border: 1px solid rgba(16, 185, 129, 0.3);
-        }
-        
-        .status-badge.admitted {
-            background: rgba(245, 158, 11, 0.1);
-            color: var(--warning);
-            border: 1px solid rgba(245, 158, 11, 0.3);
-        }
-        
-        .rp-cell {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .rp-avatar {
-            width: 32px;
-            height: 32px;
-            border-radius: 4px;
-            background: linear-gradient(135deg, var(--ibc-navy), #374151);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 11px;
-            font-weight: 700;
-            color: var(--ibc-gold);
-        }
-        
-        .rp-name {
-            font-weight: 500;
-            color: var(--ibc-navy);
-        }
-        
-        .form-g-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            padding: 8px 14px;
-            background: var(--ibc-cream);
-            border: 1px solid var(--ibc-gold);
-            border-radius: 4px;
-            color: var(--ibc-navy);
-            text-decoration: none;
-            font-size: 12px;
-            font-weight: 600;
-            font-family: 'JetBrains Mono', monospace;
-            transition: all 0.15s;
-        }
-        
-        .form-g-link:hover {
-            background: var(--ibc-gold);
-            color: var(--ibc-navy);
-        }
-        
-        .date-cell {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 12px;
-            color: var(--ibc-slate);
-        }
-        
-        .action-btn {
-            width: 32px;
-            height: 32px;
-            background: var(--ibc-cream);
-            border: 1px solid var(--border);
-            border-radius: 4px;
-            color: var(--ibc-slate);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 14px;
-            transition: all 0.15s;
-        }
-        
-        .action-btn:hover {
-            background: var(--ibc-navy);
-            color: var(--ibc-gold);
-            border-color: var(--ibc-navy);
-        }
-        
-        /* Pagination */
-        .table-footer {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 16px 24px;
-            border-top: 1px solid var(--border);
-            background: var(--ibc-cream);
-        }
-        
-        .pagination-info {
-            font-size: 13px;
-            color: var(--ibc-slate);
-        }
-        
-        .pagination {
-            display: flex;
-            align-items: center;
-            gap: 4px;
-        }
-        
-        .page-btn {
-            width: 36px;
-            height: 36px;
-            background: white;
-            border: 1px solid var(--border);
-            border-radius: 4px;
-            color: var(--ibc-slate);
-            cursor: pointer;
-            font-size: 13px;
-            font-weight: 500;
-            transition: all 0.15s;
-        }
-        
-        .page-btn:hover {
-            border-color: var(--ibc-gold);
-            color: var(--ibc-navy);
-        }
-        
-        .page-btn.active {
-            background: var(--ibc-navy);
-            border-color: var(--ibc-navy);
-            color: var(--ibc-gold);
-        }
-        
-        /* Mobile responsive */
-        @media (max-width: 1200px) {
-            .stats-grid { grid-template-columns: repeat(2, 1fr); }
-        }
-        
+        body { background: var(--ibc-cream); min-height: 100vh; }
+        .sidebar { position: fixed; left: 0; top: 0; bottom: 0; width: 280px; background: var(--ibc-navy); z-index: 100; }
+        .main-content { margin-left: 280px; min-height: 100vh; }
+        
+        /* Responsive Fixes */
         @media (max-width: 768px) {
             .sidebar { display: none; }
             .main-content { margin-left: 0; }
-            .stats-grid { grid-template-columns: 1fr; }
-            .data-table { display: block; overflow-x: auto; }
         }
     </style>
 </head>
 <body>
-    <!-- Sidebar -->
+
     <aside class="sidebar">
-        <div class="sidebar-header">
-            <div class="logo">
-                <div class="logo-text">AARSH<span>.</span></div>
-                <div class="logo-subtitle">Resolution Professionals</div>
+        <div class="sidebar-header" style="padding: 24px; border-bottom: 1px solid rgba(255,255,255,0.1);">
+            <div class="logo" style="display: flex; flex-direction: column;">
+                <div class="logo-text" style="font-family: 'Playfair Display'; font-weight: 700; font-size: 24px; color: white;">AARSH<span style="color: #D4AF37;">.</span></div>
+                <div class="logo-subtitle" style="font-size: 10px; color: rgba(255,255,255,0.5); letter-spacing: 2px; text-transform: uppercase;">Resolution Professionals</div>
             </div>
         </div>
         
-        <nav class="sidebar-nav">
-            <div class="nav-section">
-                <div class="nav-section-title">Main</div>
-                <a href="#" class="nav-item active">
-                    <span class="nav-icon"><i class="fas fa-chart-pie"></i></span>
-                    <span>Dashboard</span>
-                </a>
-                <a href="#" class="nav-item">
-                    <span class="nav-icon"><i class="fas fa-file-contract"></i></span>
-                    <span>IPE Assignments</span>
-                    <span class="nav-badge">247</span>
-                </a>
-                <a href="#" class="nav-item">
-                    <span class="nav-icon"><i class="fas fa-file-alt"></i></span>
-                    <span>Form G Data</span>
-                </a>
-            </div>
-            
-            <div class="nav-section">
-                <div class="nav-section-title">Analysis</div>
-                <a href="#" class="nav-item">
-                    <span class="nav-icon"><i class="fas fa-chart-line"></i></span>
-                    <span>Statistics</span>
-                </a>
-                <a href="#" class="nav-item">
-                    <span class="nav-icon"><i class="fas fa-search"></i></span>
-                    <span>Search Cases</span>
-                </a>
-                <a href="#" class="nav-item">
-                    <span class="nav-icon"><i class="fas fa-download"></i></span>
-                    <span>Export Data</span>
-                </a>
-            </div>
-            
-            <div class="nav-section">
-                <div class="nav-section-title">Settings</div>
-                <a href="#" class="nav-item">
-                    <span class="nav-icon"><i class="fas fa-cog"></i></span>
-                    <span>Preferences</span>
-                </a>
-                <a href="#" class="nav-item">
-                    <span class="nav-icon"><i class="fas fa-bell"></i></span>
-                    <span>Notifications</span>
-                </a>
-            </div>
+        <nav class="sidebar-nav" style="padding: 20px;">
+            <div style="margin-bottom: 12px; font-size: 10px; font-weight: 600; color: #D4AF37; text-transform: uppercase; letter-spacing: 2px; padding: 0 12px;">Main</div>
+            <a href="#" class="nav-item active" style="display: flex; align-items:center; gap: 12px; padding: 12px; color: #D4AF37; background: rgba(212, 175, 55, 0.15); border-radius: 4px; text-decoration: none; margin-bottom: 4px;">
+                <i class="fas fa-chart-pie" style="width:20px; text-align:center;"></i> <span>Dashboard</span>
+            </a>
+            <a href="#" class="nav-item" style="display: flex; align-items:center; gap: 12px; padding: 12px; color: rgba(255,255,255,0.7); text-decoration: none;">
+                <i class="fas fa-file-contract" style="width:20px; text-align:center;"></i> <span>IPE Assignments</span>
+            </a>
         </nav>
-        
-        <div class="sidebar-footer">
-            <div class="user-info">
-                <div class="user-avatar" id="userAvatar">AU</div>
-                <div class="user-details">
-                    <div class="user-name" id="userName">Admin User</div>
-                    <div class="user-role">Administrator</div>
+
+        <div class="sidebar-footer" style="position: absolute; bottom: 0; width: 100%; padding: 20px; border-top: 1px solid rgba(255,255,255,0.1);">
+            <div class="user-info" style="display: flex; gap: 10px; align-items: center;">
+                <div id="userAvatar" style="width: 35px; height: 35px; background: linear-gradient(135deg, #D4AF37, #e6c555); border-radius: 4px; display: flex; align-items: center; justify-content: center; font-weight: bold; color: #1B2430;">AU</div>
+                <div>
+                    <div id="userName" style="color: white; font-size: 13px; font-weight: 600;">Admin User</div>
+                    <div style="color: rgba(255,255,255,0.5); font-size: 11px;">Administrator</div>
                 </div>
-                <button class="logout-btn" id="logoutBtn" title="Logout">
-                    <i class="fas fa-sign-out-alt"></i>
-                </button>
+                <button id="logoutBtn" style="margin-left: auto; background: none; border: none; color: rgba(255,255,255,0.5); cursor: pointer;"><i class="fas fa-sign-out-alt"></i></button>
             </div>
         </div>
     </aside>
-    
-    <!-- Main Content -->
+
     <main class="main-content">
-        <header class="topbar">
-            <h1 class="page-title">IPE Assignments Dashboard</h1>
-            <div class="topbar-actions">
-                <div class="search-box">
-                    <i class="fas fa-search" style="color: var(--text-muted);"></i>
-                    <input type="text" placeholder="Search companies, RPs, case numbers..." id="searchInput">
-                </div>
-                <button class="icon-btn" title="Refresh Data"><i class="fas fa-sync-alt"></i></button>
-                <button class="icon-btn" title="Notifications"><i class="fas fa-bell"></i></button>
+        <header class="topbar" style="background: white; padding: 16px 32px; border-bottom: 1px solid #E5E7EB; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 50;">
+            <h1 class="page-title" style="font-family: 'Playfair Display'; font-size: 24px; color: #1B2430; font-weight: 600;">IPE Assignments Dashboard</h1>
+            <div class="search-box" style="background: #F9F5F0; padding: 10px 16px; border-radius: 4px; border: 1px solid #E5E7EB; width: 300px; display: flex; gap: 10px; align-items: center;">
+                <i class="fas fa-search" style="color: #9CA3AF;"></i>
+                <input type="text" id="searchInput" placeholder="Search cases..." style="border: none; background: transparent; outline: none; width: 100%; color: #1B2430;">
             </div>
         </header>
-        
-        <div class="content-area">
-            <!-- Stats Grid -->
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-header">
-                        <span class="stat-label">Total Assignments</span>
-                        <div class="stat-icon gold"><i class="fas fa-file-contract"></i></div>
+
+        <div class="content-area" style="padding: 32px;">
+            <div class="stats-grid" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; margin-bottom: 32px;">
+                <div class="stat-card" style="background: white; padding: 24px; border-top: 4px solid #D4AF37; border-radius: 4px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 16px;">
+                        <span style="font-size: 12px; font-weight: 600; color: #4B5563; text-transform: uppercase;">Total Assignments</span>
+                        <i class="fas fa-file-contract" style="color: #D4AF37;"></i>
                     </div>
-                    <div class="stat-value">247</div>
-                    <div class="stat-change up">↑ 12% from last month</div>
+                    <div class="stat-value" style="font-size: 36px; font-weight: 700; color: #1B2430; font-family: 'Playfair Display';">0</div>
+                </div>
+                </div>
+
+            <div class="table-section" style="background: white; border: 1px solid #E5E7EB; border-radius: 4px; overflow: hidden;">
+                <div class="table-header" style="padding: 20px 24px; border-bottom: 1px solid #E5E7EB; display: flex; justify-content: space-between; align-items: center; background: #F9F5F0;">
+                    <h2 style="font-family: 'Playfair Display'; font-size: 20px; font-weight: 600; color: #1B2430;">Recent Assignments</h2>
+                    <button class="export-btn" style="background: #1B2430; color: white; border: none; padding: 10px 16px; border-radius: 4px; font-size: 13px; font-weight: 600; cursor: pointer;">
+                        <i class="fas fa-download" style="margin-right: 8px;"></i> Export CSV
+                    </button>
                 </div>
                 
-                <div class="stat-card">
-                    <div class="stat-header">
-                        <span class="stat-label">Active CIRP</span>
-                        <div class="stat-icon blue"><i class="fas fa-bolt"></i></div>
-                    </div>
-                    <div class="stat-value">89</div>
-                    <div class="stat-change up">↑ 5 new this week</div>
-                </div>
-                
-                <div class="stat-card">
-                    <div class="stat-header">
-                        <span class="stat-label">Liquidation</span>
-                        <div class="stat-icon orange"><i class="fas fa-tint"></i></div>
-                    </div>
-                    <div class="stat-value">63</div>
-                    <div class="stat-change down">↓ 3 resolved</div>
-                </div>
-                
-                <div class="stat-card">
-                    <div class="stat-header">
-                        <span class="stat-label">Resolved Cases</span>
-                        <div class="stat-icon green"><i class="fas fa-check-circle"></i></div>
-                    </div>
-                    <div class="stat-value">95</div>
-                    <div class="stat-change up">↑ 8 this month</div>
-                </div>
-            </div>
-            
-            <!-- Data Table -->
-            <div class="table-section">
-                <div class="table-header">
-                    <h2 class="table-title">Recent IPE Assignments</h2>
-                    <div class="table-actions">
-                        <button class="filter-btn">
-                            <i class="fas fa-filter"></i>
-                            <span>Filter</span>
-                        </button>
-                        <button class="export-btn">
-                            <i class="fas fa-download"></i>
-                            <span>Export CSV</span>
-                        </button>
-                    </div>
-                </div>
-                
-                <table class="data-table">
+                <table class="data-table" style="width: 100%; border-collapse: collapse;">
                     <thead>
                         <tr>
-                            <th>Corporate Debtor</th>
-                            <th>Case Number</th>
-                            <th>Status</th>
-                            <th>Resolution Professional</th>
-                            <th>Form G</th>
-                            <th>Date</th>
-                            <th></th>
+                            <th style="text-align: left; padding: 14px 20px; background: #1B2430; color: #D4AF37; font-size: 11px; text-transform: uppercase;">Corporate Debtor</th>
+                            <th style="text-align: left; padding: 14px 20px; background: #1B2430; color: #D4AF37; font-size: 11px; text-transform: uppercase;">Sector</th>
+                            <th style="text-align: left; padding: 14px 20px; background: #1B2430; color: #D4AF37; font-size: 11px; text-transform: uppercase;">Status</th>
+                            <th style="text-align: left; padding: 14px 20px; background: #1B2430; color: #D4AF37; font-size: 11px; text-transform: uppercase;">RP Name</th>
+                            <th style="text-align: left; padding: 14px 20px; background: #1B2430; color: #D4AF37; font-size: 11px; text-transform: uppercase;">Form G</th>
+                            <th style="text-align: left; padding: 14px 20px; background: #1B2430; color: #D4AF37; font-size: 11px; text-transform: uppercase;">Date</th>
+                            <th style="padding: 14px 20px; background: #1B2430;"></th>
                         </tr>
                     </thead>
                     <tbody id="assignmentsTable">
-                        <!-- Data will be populated by JS -->
-                    </tbody>
+                        </tbody>
                 </table>
-                
-                <div class="table-footer">
-                    <div class="pagination-info">
-                        Showing <strong>1-10</strong> of <strong>247</strong> assignments
-                    </div>
-                    <div class="pagination">
-                        <button class="page-btn">←</button>
-                        <button class="page-btn active">1</button>
-                        <button class="page-btn">2</button>
-                        <button class="page-btn">3</button>
-                        <button class="page-btn">...</button>
-                        <button class="page-btn">25</button>
-                        <button class="page-btn">→</button>
-                    </div>
+
+                <div class="table-footer" style="padding: 16px 24px; border-top: 1px solid #E5E7EB; display: flex; justify-content: space-between; align-items: center; background: #F9F5F0;">
+                    <div class="pagination-info" style="font-size: 13px; color: #4B5563;">Loading...</div>
+                    <div class="pagination" style="display: flex; gap: 4px;"></div>
                 </div>
             </div>
         </div>
     </main>
-    
-    <script>
-        <script>
-    // --- AUTHENTICATION CHECK ---
-    const isLoggedIn = localStorage.getItem('aarshrp_logged_in');
-    if (!isLoggedIn) {
-        // window.location.href = 'login.html'; // Uncomment when login is ready
-    }
 
-    const userInfo = JSON.parse(localStorage.getItem('aarshrp_user') || '{}');
-    if (userInfo.name) {
-        document.getElementById('userName').textContent = userInfo.name;
-        document.getElementById('userAvatar').textContent = userInfo.name.split(' ').map(n => n[0]).join('');
-    }
+    <div id="detailModal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">Case Details</h3>
+                <button onclick="closeModal()" class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body" id="modalBody">
+                </div>
+            <div class="modal-footer">
+                <button onclick="closeModal()" class="modal-btn secondary">Close</button>
+            </div>
+        </div>
+    </div>
 
-    // --- CSV FETCHING LOGIC ---
-    
-    // REPLACE THIS LINK with your actual "Publish to Web" CSV link
-    const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQkDdaXw6527NwdR2ls_X_92gFIduPGjGtjO7EsbgnhMHhNrFsh7vn_KtZdsFcr20to6zfQu_lcVsdX/pubhtml';
-
-    let allAssignments = []; // Store data globally for filtering
-
-    async function fetchSheetData() {
-        try {
-            const response = await fetch(SHEET_CSV_URL);
-            const data = await response.text();
-            
-            // Parse CSV to JSON
-            const rows = data.split('\n').slice(1); // Remove header row
-            const parsedData = rows.map((row, index) => {
-                // Split by comma, handling potential commas inside quotes if simple
-                // For robust parsing, use a library like PapaParse, but this works for simple sheets
-                const columns = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/); 
-                
-                // Map Google Sheet Columns to Dashboard Keys
-                // Sheet Indices: 0=Company, 1=RP Name, 2=Last Date EOI, 3=Issue Date, 5=Form G URL
-                return {
-                    id: index + 1,
-                    company: columns[0]?.replace(/"/g, '') || "Unknown Company",
-                    cin: "N/A", // Not in sheet yet
-                    caseNumber: "Pending", // Not in sheet yet
-                    status: determineStatus(columns[2]), // Logic to guess status based on date
-                    rp: columns[1]?.replace(/"/g, '') || "Unknown RP",
-                    rpInitials: getInitials(columns[1]),
-                    formG: columns[5]?.replace(/"/g, '') || "#",
-                    date: parseDate(columns[3]) // Parse "03rd February, 2026"
-                };
-            }).filter(item => item.company !== "Unknown Company"); // Filter empty rows
-
-            allAssignments = parsedData;
-            updateStats(allAssignments);
-            renderTable(allAssignments);
-
-        } catch (error) {
-            console.error('Error fetching sheet data:', error);
-            document.getElementById('assignmentsTable').innerHTML = '<tr><td colspan="7">Error loading data from Google Sheets</td></tr>';
-        }
-    }
-
-    // Helper: Guess status based on "Last Date EOI"
-    function determineStatus(dateStr) {
-        if (!dateStr) return 'admitted';
-        const today = new Date();
-        const lastDate = parseDate(dateStr); // Reuse our parser
-        // If date passed, maybe it's processed? Just dummy logic for now.
-        return lastDate < today ? 'cirp' : 'admitted';
-    }
-
-    // Helper: Get initials from name
-    function getInitials(name) {
-        if (!name) return "NA";
-        return name.replace(/"/g, '').split(' ').map(n => n[0]).slice(0, 2).join('').toUpperCase();
-    }
-
-    // Helper: Parse dates like "03rd February, 2026" to JS Date
-    function parseDate(dateStr) {
-        if (!dateStr) return new Date();
-        // Remove "st", "nd", "rd", "th" from day part
-        const cleanStr = dateStr.replace(/(\d+)(st|nd|rd|th)/, '$1').replace(/"/g, '');
-        return new Date(cleanStr);
-    }
-
-    // --- RENDERING LOGIC ---
-
-    function renderTable(data) {
-        const tbody = document.getElementById('assignmentsTable');
-        tbody.innerHTML = data.map(item => `
-            <tr>
-                <td>
-                    <div class="company-cell">
-                        <span class="company-name">${item.company}</span>
-                        <span class="company-id">${item.cin}</span>
-                    </div>
-                </td>
-                <td><span style="font-family: 'JetBrains Mono', monospace; font-size: 12px;">${item.caseNumber}</span></td>
-                <td>
-                    <span class="status-badge ${item.status}">
-                        ${getStatusIcon(item.status)} ${getStatusLabel(item.status)}
-                    </span>
-                </td>
-                <td>
-                    <div class="rp-cell">
-                        <div class="rp-avatar">${item.rpInitials}</div>
-                        <span class="rp-name">${item.rp}</span>
-                    </div>
-                </td>
-                <td>
-                    ${item.formG !== '#' ? 
-                        `<a href="${item.formG}" target="_blank" class="form-g-link"><i class="fas fa-file-pdf"></i> Form G</a>` : 
-                        `<span style="color:var(--text-muted); font-size:12px;">No Link</span>`
-                    }
-                </td>
-                <td class="date-cell">${formatDate(item.date)}</td>
-                <td><button class="action-btn" title="View Details"><i class="fas fa-eye"></i></button></td>
-            </tr>
-        `).join('');
-    }
-
-    function updateStats(data) {
-        // Simple dynamic stats update
-        document.querySelector('.stat-value').innerText = data.length;
-    }
-
-    function getStatusIcon(status) {
-        const icons = { cirp: '<i class="fas fa-bolt"></i>', liquidation: '<i class="fas fa-tint"></i>', resolved: '<i class="fas fa-check"></i>', admitted: '<i class="fas fa-file-alt"></i>' };
-        return icons[status] || '<i class="fas fa-file"></i>';
-    }
-
-    function getStatusLabel(status) {
-        const labels = { cirp: 'CIRP', liquidation: 'Liquidation', resolved: 'Resolved', admitted: 'Admitted' };
-        return labels[status] || status;
-    }
-
-    function formatDate(dateObj) {
-        if (isNaN(dateObj)) return "N/A";
-        return dateObj.toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
-    }
-
-    // --- EVENTS ---
-
-    // Search
-    document.getElementById('searchInput').addEventListener('input', (e) => {
-        const query = e.target.value.toLowerCase();
-        const filtered = allAssignments.filter(item => 
-            item.company.toLowerCase().includes(query) ||
-            item.rp.toLowerCase().includes(query)
-        );
-        renderTable(filtered);
-    });
-
-    // Export CSV (Client-side generation)
-    document.querySelector('.export-btn').addEventListener('click', () => {
-        let csvContent = "data:text/csv;charset=utf-8,";
-        csvContent += "Company,RP Name,Date,Status,Form G Link\n"; // Headers
-        allAssignments.forEach(row => {
-            csvContent += `"${row.company}","${row.rp}","${formatDate(row.date)}","${row.status}","${row.formG}"\n`;
-        });
-        const encodedUri = encodeURI(csvContent);
-        const link = document.createElement("a");
-        link.setAttribute("href", encodedUri);
-        link.setAttribute("download", "aarsh_assignments.csv");
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-    });
-
-    // Initial Load
-    fetchSheetData();
-    </script>
+    <script src="config.js"></script>
+    <script src="dashboard.js"></script>
 </body>
 </html>
