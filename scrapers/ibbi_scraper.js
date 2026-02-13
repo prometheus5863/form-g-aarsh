@@ -40,13 +40,12 @@ class IBBIScraper {
             console.log(`[DEBUG] Response Data Length: ${response.data.length}`);
 
             const $ = cheerio.load(response.data);
-            const rows = $('table tr');
+            const rows = $('table tbody tr');
             console.log(`[DEBUG] Found ${rows.length} table rows`);
 
             const announcements = [];
 
             rows.each((index, element) => {
-                // Skip header logic if necessary, but usually whats-new has data in trs
                 const tds = $(element).find('td');
 
                 if (tds.length >= 2) {
@@ -55,8 +54,11 @@ class IBBIScraper {
                     const title = titleElement.text().trim() || $(tds[1]).text().trim();
                     let link = titleElement.attr('href');
 
-                    if (link && !link.startsWith('http')) {
-                        link = `https://ibbi.gov.in${link.startsWith('/') ? '' : '/'}${link}`;
+                    if (link) {
+                        link = link.trim();
+                        if (!link.startsWith('http')) {
+                            link = `https://ibbi.gov.in${link.startsWith('/') ? '' : '/'}${link}`;
+                        }
                     }
 
                     if (title) {
@@ -101,24 +103,37 @@ class IBBIScraper {
                 if (index === 0) return; // Skip header
 
                 const tds = $(element).find('td');
-                // We typically expect around 6 columns based on requirements map
-                // [0]=Corporate Debtor, [1]=RP Name, [3]=Date, [4]=Status, [5]=Form G Link
 
                 if (tds.length >= 5) {
                     const corporate_debtor = $(tds[0]).text().trim();
                     const resolution_professional = $(tds[1]).text().trim();
                     const date = $(tds[3]).text().trim();
-                    const status = $(tds[4]).text().trim();
+                    const status = "Active";
 
                     let form_g_link = '';
                     if (tds.length > 5) {
                         const linkEl = $(tds[5]).find('a');
-                        const href = linkEl.attr('href');
-                        if (href) {
-                            form_g_link = href;
-                            if (!form_g_link.startsWith('http')) {
-                                form_g_link = `https://ibbi.gov.in${form_g_link.startsWith('/') ? '' : '/'}${form_g_link}`;
+
+                        // Try to get link from onclick attribute first using regex
+                        const onclick = linkEl.attr('onclick');
+                        if (onclick) {
+                            const match = onclick.match(/(?:newwindow\d*|window\.open)\s*\(\s*['"]([^'"]+)['"]/i);
+                            if (match && match[1]) {
+                                form_g_link = match[1].trim();
                             }
+                        }
+
+                        // Fallback to href if no onclick extraction
+                        if (!form_g_link) {
+                            const href = linkEl.attr('href');
+                            if (href && href !== '#' && !href.startsWith('javascript:')) {
+                                form_g_link = href.trim();
+                            }
+                        }
+
+                        if (form_g_link && !form_g_link.startsWith('http')) {
+                            // Ensure no double slash issue if link starts with /
+                            form_g_link = `https://ibbi.gov.in${form_g_link.startsWith('/') ? '' : '/'}${form_g_link}`;
                         }
                     }
 
@@ -157,7 +172,7 @@ class IBBIScraper {
             console.log(`[DEBUG] Response Data Length: ${response.data.length}`);
 
             const $ = cheerio.load(response.data);
-            const rows = $('table tr');
+            const rows = $('table tbody tr');
             console.log(`[DEBUG] Found ${rows.length} table rows`);
 
             const announcements = [];
@@ -170,8 +185,11 @@ class IBBIScraper {
                     const title = titleElement.text().trim() || $(tds[0]).text().trim();
                     let link = titleElement.attr('href');
 
-                    if (link && !link.startsWith('http')) {
-                        link = `https://ibbi.gov.in${link.startsWith('/') ? '' : '/'}${link}`;
+                    if (link) {
+                        link = link.trim();
+                        if (!link.startsWith('http')) {
+                            link = `https://ibbi.gov.in${link.startsWith('/') ? '' : '/'}${link}`;
+                        }
                     }
 
                     const category = $(tds[1]).text().trim();
@@ -203,12 +221,6 @@ class IBBIScraper {
 
     async getAllData() {
         console.log('Starting comprehensive IBBI data scrape...');
-
-        // Run in parallel since they are independent and we want to be fast, 
-        // but user script had sequential execution comment "to prevent IP block".
-        // Use Promise.all but robustly handles errors in individual calls because we return [] in catch blocks.
-        // Re-reading user requirement: "Ensure each method returns an array (even if empty []), so Promise.all in getAllData() never crashes."
-        // So Promise.all is expected.
 
         const [announcements, assignments, publicAnnouncements] = await Promise.all([
             this.scrapeAnnouncements(),
