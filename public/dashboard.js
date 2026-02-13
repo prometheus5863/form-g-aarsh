@@ -31,8 +31,20 @@ function checkAuth() {
 
 // --- GLOBAL STATE ---
 let allAssignments = [];
+let allAnnouncements = [];
+let allPublicAnnouncements = [];
+let currentTab = 'assignments'; // 'assignments', 'announcements', 'public-announcements'
 let currentFiltered = [];
 let currentPage = 1;
+
+// --- TAB MANAGEMENT ---
+function switchTab(tabName) {
+    currentTab = tabName;
+    document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+    document.querySelector(`.tab-button[data-tab="${tabName}"]`).classList.add('active');
+    updateStats();
+    renderTable(1);
+}
 
 // --- CORE: FETCH DATA FROM SERVER ---
 async function fetchSheetData() {
@@ -40,47 +52,95 @@ async function fetchSheetData() {
     tbody.innerHTML = '<tr><td colspan="7" style="text-align:center; padding: 20px;">Loading live data...</td></tr>';
 
     try {
-        const response = await fetch(CONFIG.SHEET_URL);
-        const jsonData = await response.json();
+        // Fetch both original data and new IBBI data
+        const [originalResponse, ibbiResponse] = await Promise.all([
+            fetch(CONFIG.SHEET_URL).catch(() => ({ json: () => [] })),
+            fetch('/api/ibbi-data').catch(() => ({ json: () => ({ assignments: [], announcements: [], public_announcements: [] }) }))
+        ]);
 
-        if (!jsonData || jsonData.length === 0) {
-            tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;">No data found.</td></tr>';
-            return;
+        const originalJson = await originalResponse.json();
+        const ibbiJson = await ibbiResponse.json();
+
+        // Process original assignments
+        if (originalJson && originalJson.length > 0) {
+            const firstRow = originalJson[0];
+            const keys = Object.keys(firstRow);
+            const findCol = (keywords) => keys.find(k => keywords.some(w => k.toLowerCase().includes(w)));
+
+            const map = {
+                company: findCol(['corporate debtor', 'company', 'name of corporate']),
+                rp: findCol(['resolution professional', 'rp name', 'name of ip', 'ip name']),
+                date: findCol(['date', 'order']),
+                status: findCol(['status', 'stage', 'subject']),
+                formG: findCol(['form g', 'link', 'url', 'pdf']),
+                cin: findCol(['cin']),
+                sector: findCol(['sector', 'industry']),
+                remarks: findCol(['remark', 'analysis', 'note'])
+            };
+
+            allAssignments = originalJson.map((row, index) => {
+                return {
+                    id: `orig_${index}`,
+                    company: row[map.company] || "Unknown Company",
+                    rp: row[map.rp] || "N/A",
+                    date: row[map.date] || "",
+                    status: row[map.status] || "Admitted",
+                    formG: row[map.formG] || "#",
+                    cin: row[map.cin] || "N/A",
+                    sector: row[map.sector] || "General",
+                    remarks: row[map.remarks] || "",
+                    source: 'original'
+                };
+            }).filter(item => item.company !== "Unknown Company");
         }
 
-        // --- SMART MAPPING ---
-        // Detects column headers dynamically
-        const firstRow = jsonData[0];
-        const keys = Object.keys(firstRow);
-        const findCol = (keywords) => keys.find(k => keywords.some(w => k.toLowerCase().includes(w)));
+        // Process scraped assignments
+        if (ibbiJson.assignments && ibbiJson.assignments.length > 0) {
+            const scrapedAssignments = ibbiJson.assignments.map((item, index) => {
+                return {
+                    id: `scraped_${item.ID || index}`,
+                    company: item['Corporate Debtor'] || item['Company'] || "Unknown Company",
+                    rp: item['Resolution Professional'] || item.RP || "N/A",
+                    date: item.Date || "",
+                    status: item.Status || "Admitted",
+                    formG: item['Form G Link'] || item.FormG || "#",
+                    cin: item.CIN || "N/A",
+                    sector: item.Sector || "General",
+                    remarks: item.Remarks || item.Description || "",
+                    source: 'scraped'
+                };
+            }).filter(item => item.company !== "Unknown Company");
+            
+            allAssignments = [...allAssignments, ...scrapedAssignments];
+        }
 
-        const map = {
-            company: findCol(['corporate debtor', 'company', 'name of corporate']),
-            rp: findCol(['resolution professional', 'rp name', 'name of ip', 'ip name']),
-            date: findCol(['date', 'order']),
-            status: findCol(['status', 'stage', 'subject']),
-            formG: findCol(['form g', 'link', 'url', 'pdf']),
-            cin: findCol(['cin']),
-            sector: findCol(['sector', 'industry']),
-            remarks: findCol(['remark', 'analysis', 'note'])
-        };
-
-        // --- MAP DATA ---
-        allAssignments = jsonData.map((row, index) => {
+        // Process announcements
+        allAnnouncements = (ibbiJson.announcements || []).map((item, index) => {
             return {
-                id: index,
-                company: row[map.company] || "Unknown Company",
-                rp: row[map.rp] || "N/A",
-                date: row[map.date] || "",
-                status: row[map.status] || "Admitted",
-                formG: row[map.formG] || "#",
-                cin: row[map.cin] || "N/A",
-                sector: row[map.sector] || "General",
-                remarks: row[map.remarks] || ""
+                id: `ann_${item.ID || index}`,
+                title: item.Title || item.title || "Untitled Announcement",
+                date: item.Date || item.date || "",
+                link: item.Link || item.link || "",
+                scraped_at: item['Scraped At'] || item.scraped_at || "",
+                source: 'scraped'
             };
-        }).filter(item => item.company !== "Unknown Company");
+        });
 
-        currentFiltered = allAssignments;
+        // Process public announcements
+        allPublicAnnouncements = (ibbiJson.public_announcements || []).map((item, index) => {
+            return {
+                id: `pub_ann_${item.ID || index}`,
+                title: item.Title || item.title || "Untitled Public Announcement",
+                date: item.Date || item.date || "",
+                link: item.Link || item.link || "",
+                category: item.Category || item.category || "Public Announcement",
+                scraped_at: item['Scraped At'] || item.scraped_at || "",
+                source: 'scraped'
+            };
+        });
+
+        // Set current filtered data based on active tab
+        switchTab(currentTab);
         updateStats();
         renderTable(1);
 
@@ -105,47 +165,89 @@ function renderTable(page) {
         return;
     }
 
-    tbody.innerHTML = pageData.map(item => `
-        <tr>
-            <td>
-                <div style="font-weight: 700; color: var(--ibc-navy);">${item.company}</div>
-                <div style="font-size: 11px; color: #6B7280; font-family: 'JetBrains Mono', monospace;">${item.cin}</div>
-            </td>
-            
-            <td>${item.sector}</td>
-            
-            <td>
-                <span class="badge ${getStatusClass(item.status)}">
-                    ${item.status}
-                </span>
-            </td>
-            
-            <td>
-                <div style="display:flex; align-items:center; gap:8px;">
-                    <div style="width:24px; height:24px; background:var(--ibc-navy); color:var(--ibc-gold); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:10px; font-weight:bold;">
-                        ${getInitials(item.rp)}
+    // Render different content based on current tab
+    if (currentTab === 'announcements') {
+        tbody.innerHTML = pageData.map(item => `
+            <tr>
+                <td style="font-weight: 700; color: var(--ibc-navy);">${item.title}</td>
+                <td>${item.category || 'Announcement'}</td>
+                <td><span class="badge admitted">${item.date || 'N/A'}</span></td>
+                <td>N/A</td>
+                <td>
+                    ${item.link && item.link !== '#' ? `<a href="${item.link}" target="_blank" style="color:var(--ibc-navy); font-weight:600; text-decoration:none; display:inline-flex; align-items:center; gap:4px;">
+                        <i class="fas fa-external-link-alt"></i> Link
+                       </a>` : '<span style="color:#ccc; font-size:12px;">--</span>'}
+                </td>
+                <td style="font-family:'JetBrains Mono'; font-size:12px;">${item.scraped_at ? new Date(item.scraped_at).toLocaleDateString() : ''}</td>
+                <td>
+                    <button onclick="openModal('${item.id}')" style="border:1px solid #E5E7EB; background:white; width:32px; height:32px; border-radius:4px; cursor:pointer; color:#4B5563;">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                </td>
+            </tr>
+        `).join('');
+    } else if (currentTab === 'public-announcements') {
+        tbody.innerHTML = pageData.map(item => `
+            <tr>
+                <td style="font-weight: 700; color: var(--ibc-navy);">${item.title}</td>
+                <td>${item.category || 'Public Announcement'}</td>
+                <td><span class="badge admitted">${item.date || 'N/A'}</span></td>
+                <td>N/A</td>
+                <td>
+                    ${item.link && item.link !== '#' ? `<a href="${item.link}" target="_blank" style="color:var(--ibc-navy); font-weight:600; text-decoration:none; display:inline-flex; align-items:center; gap:4px;">
+                        <i class="fas fa-external-link-alt"></i> Link
+                       </a>` : '<span style="color:#ccc; font-size:12px;">--</span>'}
+                </td>
+                <td style="font-family:'JetBrains Mono'; font-size:12px;">${item.scraped_at ? new Date(item.scraped_at).toLocaleDateString() : ''}</td>
+                <td>
+                    <button onclick="openModal('${item.id}')" style="border:1px solid #E5E7EB; background:white; width:32px; height:32px; border-radius:4px; cursor:pointer; color:#4B5563;">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                </td>
+            </tr>
+        `).join('');
+    } else {
+        // Default: assignments view
+        tbody.innerHTML = pageData.map(item => `
+            <tr>
+                <td>
+                    <div style="font-weight: 700; color: var(--ibc-navy);">${item.company}</div>
+                    <div style="font-size: 11px; color: #6B7280; font-family: 'JetBrains Mono', monospace;">${item.cin}</div>
+                </td>
+                
+                <td>${item.sector}</td>
+                
+                <td>
+                    <span class="badge ${getStatusClass(item.status)}">
+                        ${item.status}
+                    </span>
+                </td>
+                
+                <td>
+                    <div style="display:flex; align-items:center; gap:8px;">
+                        <div style="width:24px; height:24px; background:var(--ibc-navy); color:var(--ibc-gold); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:10px; font-weight:bold;">
+                            ${getInitials(item.rp)}
+                        </div>
+                        <span>${item.rp}</span>
                     </div>
-                    <span>${item.rp}</span>
-                </div>
-            </td>
-            
-            <td>
-                ${item.formG.includes('http') 
-                    ? `<a href="${item.formG}" target="_blank" style="color:var(--ibc-navy); font-weight:600; text-decoration:none; display:inline-flex; align-items:center; gap:4px;">
+                </td>
+                
+                <td>
+                    ${item.formG && item.formG !== '#' ? `<a href="${item.formG}" target="_blank" style="color:var(--ibc-navy); font-weight:600; text-decoration:none; display:inline-flex; align-items:center; gap:4px;">
                         <i class="fas fa-file-pdf"></i> PDF
-                       </a>` 
-                    : '<span style="color:#ccc; font-size:12px;">--</span>'}
-            </td>
-            
-            <td style="font-family:'JetBrains Mono'; font-size:12px;">${item.date}</td>
-            
-            <td>
-                <button onclick="openModal(${item.id})" style="border:1px solid #E5E7EB; background:white; width:32px; height:32px; border-radius:4px; cursor:pointer; color:#4B5563;">
-                    <i class="fas fa-eye"></i>
-                </button>
-            </td>
-        </tr>
-    `).join('');
+                       </a>` : '<span style="color:#ccc; font-size:12px;">--</span>'}
+                </td>
+                
+                <td style="font-family:'JetBrains Mono'; font-size:12px;">${item.date}</td>
+                
+                <td>
+                    <button onclick="openModal('${item.id}')" style="border:1px solid #E5E7EB; background:white; width:32px; height:32px; border-radius:4px; cursor:pointer; color:#4B5563;">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                </td>
+            </tr>
+        `).join('');
+    }
     
     updatePagination();
 }
@@ -156,7 +258,7 @@ function getStatusClass(status) {
     const s = status.toLowerCase();
     if (s.includes('cirp')) return 'cirp';      // Blue
     if (s.includes('liquid')) return 'liquid';  // Red
-    if (s.includes('resolved')) return 'resolved'; // Green
+    if (s.includes('resolved') || s.includes('completed')) return 'resolved'; // Green
     return 'admitted'; // Orange (Default)
 }
 
@@ -211,28 +313,97 @@ function setupSearch() {
 }
 
 function updateStats() {
-    const el = document.querySelector('.stat-value');
-    if(el) el.textContent = allAssignments.length;
+    // Update tab-specific stats
+    const stats = {
+        assignments: allAssignments.length,
+        announcements: allAnnouncements.length,
+        public_announcements: allPublicAnnouncements.length
+    };
+    
+    // Update the stat numbers based on current tab
+    document.querySelector('.stat-value').textContent = stats[currentTab] || stats.assignments;
+    
+    // Update tab counters if they exist
+    const assignCount = document.querySelector('[data-tab="assignments"] .tab-count');
+    const annCount = document.querySelector('[data-tab="announcements"] .tab-count');
+    const pubAnnCount = document.querySelector('[data-tab="public-announcements"] .tab-count');
+    
+    if (assignCount) assignCount.textContent = `(${stats.assignments})`;
+    if (annCount) annCount.textContent = `(${stats.announcements})`;
+    if (pubAnnCount) pubAnnCount.textContent = `(${stats.public_announcements})`;
+    
+    // Set current filtered data based on active tab
+    switch(currentTab) {
+        case 'announcements':
+            currentFiltered = allAnnouncements;
+            break;
+        case 'public-announcements':
+            currentFiltered = allPublicAnnouncements;
+            break;
+        default:
+            currentFiltered = allAssignments;
+    }
 }
 
 // --- MODAL ---
 window.openModal = function(id) {
-    const item = allAssignments.find(x => x.id === id);
-    if (!item) return;
-    
-    document.getElementById('modalTitle').innerText = item.company;
-    document.getElementById('modalBody').innerHTML = `
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
-            <div><label style="font-size:11px; font-weight:700; color:#9CA3AF;">RP NAME</label><p style="font-weight:600; color:#1B2430;">${item.rp}</p></div>
-            <div><label style="font-size:11px; font-weight:700; color:#9CA3AF;">CIN</label><p style="font-weight:600; color:#1B2430;">${item.cin}</p></div>
-            <div><label style="font-size:11px; font-weight:700; color:#9CA3AF;">STATUS</label><p style="font-weight:600; color:#1B2430;">${item.status}</p></div>
-            <div><label style="font-size:11px; font-weight:700; color:#9CA3AF;">DATE</label><p style="font-weight:600; color:#1B2430;">${item.date}</p></div>
-            <div style="grid-column: span 2;">
-                <label style="font-size:11px; font-weight:700; color:#9CA3AF;">REMARKS</label>
-                <div style="background:#F9F5F0; padding:12px; border-left:3px solid #D4AF37; font-size:13px; line-height:1.5;">${item.remarks || "No additional remarks."}</div>
+    let item;
+    if (id.startsWith('orig_') || id.startsWith('scraped_')) {
+        // Assignment item
+        item = [...allAssignments].find(x => x.id === id);
+        if (!item) return;
+        
+        document.getElementById('modalTitle').innerText = item.company || 'Assignment Details';
+        document.getElementById('modalBody').innerHTML = `
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                <div><label style="font-size:11px; font-weight:700; color:#9CA3AF;">RP NAME</label><p style="font-weight:600; color:#1B2430;">${item.rp}</p></div>
+                <div><label style="font-size:11px; font-weight:700; color:#9CA3AF;">CIN</label><p style="font-weight:600; color:#1B2430;">${item.cin}</p></div>
+                <div><label style="font-size:11px; font-weight:700; color:#9CA3AF;">STATUS</label><p style="font-weight:600; color:#1B2430;">${item.status}</p></div>
+                <div><label style="font-size:11px; font-weight:700; color:#9CA3AF;">DATE</label><p style="font-weight:600; color:#1B2430;">${item.date}</p></div>
+                <div style="grid-column: span 2;">
+                    <label style="font-size:11px; font-weight:700; color:#9CA3AF;">REMARKS</label>
+                    <div style="background:#F9F5F0; padding:12px; border-left:3px solid #D4AF37; font-size:13px; line-height:1.5;">${item.remarks || "No additional remarks."}</div>
+                </div>
             </div>
-        </div>
-    `;
+        `;
+    } else if (id.startsWith('ann_')) {
+        // Announcement item
+        item = allAnnouncements.find(x => x.id === id);
+        if (!item) return;
+        
+        document.getElementById('modalTitle').innerText = item.title || 'Announcement Details';
+        document.getElementById('modalBody').innerHTML = `
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                <div><label style="font-size:11px; font-weight:700; color:#9CA3AF;">TITLE</label><p style="font-weight:600; color:#1B2430;">${item.title}</p></div>
+                <div><label style="font-size:11px; font-weight:700; color:#9CA3AF;">DATE</label><p style="font-weight:600; color:#1B2430;">${item.date}</p></div>
+                <div style="grid-column: span 2;">
+                    <label style="font-size:11px; font-weight:700; color:#9CA3AF;">LINK</label>
+                    <div style="background:#F9F5F0; padding:12px; border-left:3px solid #D4AF37; font-size:13px; line-height:1.5;">
+                        ${item.link && item.link !== '#' ? `<a href="${item.link}" target="_blank" style="color:var(--ibc-navy); font-weight:600;">View Announcement</a>` : "No link available"}
+                    </div>
+                </div>
+            </div>
+        `;
+    } else if (id.startsWith('pub_ann_')) {
+        // Public announcement item
+        item = allPublicAnnouncements.find(x => x.id === id);
+        if (!item) return;
+        
+        document.getElementById('modalTitle').innerText = item.title || 'Public Announcement Details';
+        document.getElementById('modalBody').innerHTML = `
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                <div><label style="font-size:11px; font-weight:700; color:#9CA3AF;">TITLE</label><p style="font-weight:600; color:#1B2430;">${item.title}</p></div>
+                <div><label style="font-size:11px; font-weight:700; color:#9CA3AF;">CATEGORY</label><p style="font-weight:600; color:#1B2430;">${item.category}</p></div>
+                <div><label style="font-size:11px; font-weight:700; color:#9CA3AF;">DATE</label><p style="font-weight:600; color:#1B2430;">${item.date}</p></div>
+                <div style="grid-column: span 2;">
+                    <label style="font-size:11px; font-weight:700; color:#9CA3AF;">LINK</label>
+                    <div style="background:#F9F5F0; padding:12px; border-left:3px solid #D4AF37; font-size:13px; line-height:1.5;">
+                        ${item.link && item.link !== '#' ? `<a href="${item.link}" target="_blank" style="color:var(--ibc-navy); font-weight:600;">View Announcement</a>` : "No link available"}
+                    </div>
+                </div>
+            </div>
+        `;
+    }
     
     document.getElementById('detailModal').classList.add('active');
 }

@@ -44,10 +44,20 @@
 
     <main class="main-content">
         <header class="topbar">
-            <h1 class="page-title">IPE Assignments Dashboard</h1>
+            <div class="tab-navigation">
+                <button class="tab-button active" data-tab="assignments" onclick="switchTab('assignments')">
+                    <i class="fas fa-file-contract"></i> IPE Assignments <span class="tab-count">(--)</span>
+                </button>
+                <button class="tab-button" data-tab="announcements" onclick="switchTab('announcements')">
+                    <i class="fas fa-bullhorn"></i> Announcements <span class="tab-count">(--)</span>
+                </button>
+                <button class="tab-button" data-tab="public-announcements" onclick="switchTab('public-announcements')">
+                    <i class="fas fa-bell"></i> Public Announcements <span class="tab-count">(--)</span>
+                </button>
+            </div>
             <div class="search-container">
                 <i class="fas fa-search search-icon"></i>
-                <input type="text" id="searchInput" class="search-input" placeholder="Search companies, RPs...">
+                <input type="text" id="searchInput" class="search-input" placeholder="Search...">
             </div>
         </header>
 
