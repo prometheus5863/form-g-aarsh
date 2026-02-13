@@ -15,11 +15,11 @@ function checkAuth() {
         const user = JSON.parse(userStr);
         const nameEl = document.getElementById('userName');
         if (nameEl) nameEl.textContent = user.name;
-        
+
         const avatarEl = document.getElementById('userAvatar');
         if (avatarEl) avatarEl.textContent = getInitials(user.name);
     }
-    
+
     const logoutBtn = document.getElementById('logoutBtn');
     if (logoutBtn) {
         logoutBtn.addEventListener('click', () => {
@@ -110,7 +110,7 @@ async function fetchSheetData() {
                     source: 'scraped'
                 };
             }).filter(item => item.company !== "Unknown Company");
-            
+
             allAssignments = [...allAssignments, ...scrapedAssignments];
         }
 
@@ -158,7 +158,20 @@ function renderTable(page) {
     const pageData = currentFiltered.slice(start, end);
 
     const tbody = document.getElementById('assignmentsTable');
-    
+
+    // Dynamically update table headers
+    const thead = document.querySelector('.custom-table thead');
+    if (thead) {
+        if (currentTab === 'announcements') {
+            thead.innerHTML = '<tr><th>Title</th><th>Category</th><th>Date</th><th>Empty</th><th>Link</th><th>Scraped At</th><th>Action</th></tr>';
+        } else if (currentTab === 'public-announcements') {
+            thead.innerHTML = '<tr><th>Title</th><th>Category</th><th>Date</th><th>Empty</th><th>Link</th><th>Scraped At</th><th>Action</th></tr>';
+        } else {
+            // Default Assignments
+            thead.innerHTML = '<tr><th>Corporate Debtor</th><th>Sector</th><th>Status</th><th>RP Name</th><th>Form G</th><th>Date</th><th>Action</th></tr>';
+        }
+    }
+
     if (pageData.length === 0) {
         tbody.innerHTML = '<tr><td colspan="7" style="text-align:center; padding:20px;">No records found.</td></tr>';
         updatePagination();
@@ -248,7 +261,7 @@ function renderTable(page) {
             </tr>
         `).join('');
     }
-    
+
     updatePagination();
 }
 
@@ -284,26 +297,26 @@ function updatePagination() {
     if (currentPage > 1) {
         html += `<button onclick="renderTable(${currentPage - 1})" style="padding:6px 12px; border:1px solid #ddd; background:white; border-radius:4px; cursor:pointer;">←</button>`;
     }
-    
+
     // Current Page Number
     html += `<button style="padding:6px 12px; border:1px solid var(--ibc-navy); background:var(--ibc-navy); color:white; border-radius:4px; cursor:default;">${currentPage}</button>`;
-    
+
     // Next
     if (currentPage < totalPages) {
         html += `<button onclick="renderTable(${currentPage + 1})" style="padding:6px 12px; border:1px solid #ddd; background:white; border-radius:4px; cursor:pointer;">→</button>`;
     }
-    
+
     container.innerHTML = html;
 }
 
 // --- SEARCH & STATS ---
 function setupSearch() {
     const input = document.getElementById('searchInput');
-    if(input) {
+    if (input) {
         input.addEventListener('input', (e) => {
             const term = e.target.value.toLowerCase();
-            currentFiltered = allAssignments.filter(item => 
-                item.company.toLowerCase().includes(term) || 
+            currentFiltered = allAssignments.filter(item =>
+                item.company.toLowerCase().includes(term) ||
                 item.rp.toLowerCase().includes(term) ||
                 item.cin.toLowerCase().includes(term)
             );
@@ -319,21 +332,21 @@ function updateStats() {
         announcements: allAnnouncements.length,
         public_announcements: allPublicAnnouncements.length
     };
-    
+
     // Update the stat numbers based on current tab
     document.querySelector('.stat-value').textContent = stats[currentTab] || stats.assignments;
-    
+
     // Update tab counters if they exist
     const assignCount = document.querySelector('[data-tab="assignments"] .tab-count');
     const annCount = document.querySelector('[data-tab="announcements"] .tab-count');
     const pubAnnCount = document.querySelector('[data-tab="public-announcements"] .tab-count');
-    
+
     if (assignCount) assignCount.textContent = `(${stats.assignments})`;
     if (annCount) annCount.textContent = `(${stats.announcements})`;
     if (pubAnnCount) pubAnnCount.textContent = `(${stats.public_announcements})`;
-    
+
     // Set current filtered data based on active tab
-    switch(currentTab) {
+    switch (currentTab) {
         case 'announcements':
             currentFiltered = allAnnouncements;
             break;
@@ -346,13 +359,13 @@ function updateStats() {
 }
 
 // --- MODAL ---
-window.openModal = function(id) {
+window.openModal = function (id) {
     let item;
     if (id.startsWith('orig_') || id.startsWith('scraped_')) {
         // Assignment item
         item = [...allAssignments].find(x => x.id === id);
         if (!item) return;
-        
+
         document.getElementById('modalTitle').innerText = item.company || 'Assignment Details';
         document.getElementById('modalBody').innerHTML = `
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
@@ -370,7 +383,7 @@ window.openModal = function(id) {
         // Announcement item
         item = allAnnouncements.find(x => x.id === id);
         if (!item) return;
-        
+
         document.getElementById('modalTitle').innerText = item.title || 'Announcement Details';
         document.getElementById('modalBody').innerHTML = `
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
@@ -388,7 +401,7 @@ window.openModal = function(id) {
         // Public announcement item
         item = allPublicAnnouncements.find(x => x.id === id);
         if (!item) return;
-        
+
         document.getElementById('modalTitle').innerText = item.title || 'Public Announcement Details';
         document.getElementById('modalBody').innerHTML = `
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
@@ -404,10 +417,10 @@ window.openModal = function(id) {
             </div>
         `;
     }
-    
+
     document.getElementById('detailModal').classList.add('active');
 }
 
-window.closeModal = function() {
+window.closeModal = function () {
     document.getElementById('detailModal').classList.remove('active');
 }
