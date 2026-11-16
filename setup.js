@@ -68,7 +68,7 @@ GOOGLE_SHEET_ID=your_google_sheet_id_here
         console.log('\nNext steps:');
         console.log('1. Edit the .env file with your Google Sheet ID');
         console.log('2. Run `npm start` to start the server');
-        console.log('3. Access the dashboard at http://localhost:3000');
+        console.log('3. Access the dashboard at http://localhost:3001');
         console.log('4. Run `npm run scrape` to manually trigger data scraping');
         console.log('\nThe system is now ready for automated daily updates!');
         

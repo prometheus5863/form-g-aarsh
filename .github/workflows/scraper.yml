@@ -6,6 +6,14 @@ on:
     - cron: '30 0 * * *'
   workflow_dispatch: # This line adds a manual "Run" button in GitHub
 
+# The job commits the refreshed CSV files back to the repository.
+permissions:
+  contents: write
+
+concurrency:
+  group: ibbi-scraper
+  cancel-in-progress: false
+
 jobs:
   scrape-and-update:
     runs-on: ubuntu-latest
@@ -17,9 +25,13 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20'
+          cache: npm
 
       - name: Install Dependencies
-        run: npm install
+        run: npm ci
+
+      - name: Run Tests
+        run: npm test
 
       - name: Run the Scraper
         # Using the manual command to bypass the local last_run.json lock
