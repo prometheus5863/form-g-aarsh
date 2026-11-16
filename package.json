@@ -8,7 +8,8 @@
         "dev": "nodemon server.js",
         "scrape": "node automation/daily_update.js manual",
         "scrape:daily": "node automation/daily_update.js daily",
-        "scrape:stats": "node automation/daily_update.js stats"
+        "scrape:stats": "node automation/daily_update.js stats",
+        "test": "node --test"
     },
     "dependencies": {
         "axios": "^1.6.0",
@@ -22,7 +23,7 @@
         "nodemon": "^3.0.1"
     },
     "engines": {
-        "node": ">=18.0.0"
+        "node": ">=18"
     },
     "keywords": [
         "insolvency",

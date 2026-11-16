@@ -85,11 +85,17 @@ app.get('/api/ibbi-data', async (req, res) => {
             console.warn('Could not read public announcements data:', e.message);
         }
 
+        // When the data was last written, not when this request happened to arrive.
+        let lastUpdated = null;
+        try {
+            lastUpdated = (await fs.stat(assignmentsPath)).mtime.toISOString();
+        } catch (e) { /* no data file yet */ }
+
         res.json({
             assignments: assignments,
             announcements: announcements,
             public_announcements: publicAnnouncements,
-            last_updated: new Date().toISOString()
+            last_updated: lastUpdated
         });
 
     } catch (error) {
@@ -98,8 +104,22 @@ app.get('/api/ibbi-data', async (req, res) => {
     }
 });
 
-// NEW: Endpoint to trigger manual update
+// Endpoint to trigger a scrape by hand.
+// It makes this server fetch three pages from IBBI, so it is not left open to anyone who finds the URL:
+// if ADMIN_TOKEN is set the caller must send it, and in every case there is a cooldown between runs.
+const MANUAL_UPDATE_COOLDOWN_MS = 5 * 60 * 1000;
+let lastManualUpdate = 0;
+
 app.post('/api/manual-update', async (req, res) => {
+    const token = process.env.ADMIN_TOKEN;
+    if (token && req.get('x-admin-token') !== token) {
+        return res.status(401).json({ error: 'Missing or wrong x-admin-token header' });
+    }
+    const wait = lastManualUpdate + MANUAL_UPDATE_COOLDOWN_MS - Date.now();
+    if (wait > 0) {
+        return res.status(429).json({ error: 'A manual update ran recently', retry_after_seconds: Math.ceil(wait / 1000) });
+    }
+    lastManualUpdate = Date.now();
     try {
         console.log('Manual update requested via API');
         const result = await dailyUpdater.manualUpdate();
@@ -121,16 +141,22 @@ app.get('/api/stats', async (req, res) => {
     }
 });
 
+app.get('/api/health', (req, res) => res.json({ ok: true }));
+
 // Fallback to index.html for any other route (SPA behavior)
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-app.listen(PORT, () => {
+module.exports = app;
+
+// Only start listening when run directly (`node server.js`), so tests can import the app.
+if (require.main === module) app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
     console.log('Available endpoints:');
     console.log('  GET /api/data - Original Google Sheets data');
     console.log('  GET /api/ibbi-data - Scraped IBBI data (assignments, announcements)');
     console.log('  POST /api/manual-update - Trigger manual data update');
     console.log('  GET /api/stats - Get update statistics');
+    console.log('  GET /api/health - Liveness check');
 });
